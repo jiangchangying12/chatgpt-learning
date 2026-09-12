@@ -1,0 +1,74 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Part 6｜ASP.NET Core + PostgreSQL 完整實戰</title><style>:root{--b:#0b1020;--p:#121a2d;--p2:#17223a;--t:#edf3ff;--m:#aebbd2;--a:#72e1c6;--l:#2a3a5c;--g:#8de39b;--r:#ff9c9c}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(#09101d,#0b1020);color:var(--t);font:16px/1.75 Inter,"Noto Sans TC","Microsoft JhengHei",sans-serif}.w{max-width:1120px;margin:auto;padding:22px 24px 80px}a{color:var(--a)}h1{font-size:clamp(36px,6vw,66px);line-height:1.05;margin:18px 0}h2{font-size:32px;margin-top:62px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;padding:45px 0}.lead{font-size:20px;color:#cbd7eb}.badge{border:1px solid #3b5972;border-radius:30px;padding:6px 12px;color:var(--a)}.card,.box,.quiz{background:var(--p);border:1px solid var(--l);border-radius:19px;padding:23px}.score{font-size:42px;font-weight:900;color:var(--a)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:17px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.toc{position:sticky;top:10px;z-index:3;display:flex;gap:14px;overflow:auto;background:#0a101de8;border:1px solid var(--l);border-radius:13px;padding:10px}.toc a{white-space:nowrap;text-decoration:none;color:#cad7ea}.call{border-left:4px solid var(--a);margin:20px 0}.warn{border-left-color:#ffd479}.bad{border-left-color:var(--r)}table{width:100%;border-collapse:collapse;background:var(--p)}th,td{padding:14px;text-align:left;border:1px solid var(--l);vertical-align:top}th{background:var(--p2)}pre{white-space:pre-wrap;background:#090d18;border:1px solid #25324a;border-radius:14px;padding:18px;overflow:auto;color:#dce8ff}.phase{border-top:3px solid #8eb5ff}.q{padding:22px 0;border-bottom:1px solid var(--l)}.opt{display:block;margin:8px 0;padding:11px 13px;background:#10192b;border:1px solid #2d405f;border-radius:11px;cursor:pointer}.ans{display:none;margin-top:11px;padding:14px;background:#0e1728;border-radius:10px}.show{display:block}.correct{border-left:4px solid var(--g)}.incorrect{border-left:4px solid var(--r)}button{padding:13px 18px;border:0;border-radius:11px;background:var(--a);font-weight:800;cursor:pointer}.sec{background:#2a3d5d;color:white}.result{display:none;margin-top:22px;padding:22px;border:1px solid #3d5b7f;border-radius:15px}.axes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.axis{padding:13px;background:var(--p2);border-radius:11px}.bar{height:8px;background:#263853}.fill{height:100%;background:var(--a)}.small{color:var(--m);font-size:14px}.footer{margin-top:60px;border-top:1px solid var(--l);padding-top:22px;color:var(--m)}@media(max-width:780px){.hero,.grid,.grid3,.axes{grid-template-columns:1fr}.w{padding:16px}h2{font-size:27px}}</style></head><body><main class="w"><a href="../">← 回課程首頁</a><header class="hero"><div><span class="badge">Claude → ChatGPT 快速轉換課程</span><h1>Part 6<br>案件追蹤系統完整實戰</h1><p class="lead">以 ASP.NET Core Web API + PostgreSQL 完整走過需求、規格、架構、資料模型、API、實作、測試與交付。ChatGPT 負責加速分析與產出，人負責需求權限、證據與最終核准。</p></div><aside class="card"><div class="small">畢業標準</div><div class="score">85 分 + 可執行成果</div><p>不只看懂範例，而是完成一條垂直切片、資料庫 migration、測試與可追溯文件。</p></aside></header><nav class="toc"><a href="#scope">案例</a><a href="#sdlc">SDLC</a><a href="#design">設計</a><a href="#code">程式</a><a href="#test">測試</a><a href="#practice">實作</a><a href="#exam">測驗</a></nav>
+<section id="scope"><h2>01｜案例與完成範圍</h2><div class="box"><h3>案件追蹤系統</h3><p>角色：承辦人、主管、系統管理員。核心功能：建立案件、指派承辦人、合法狀態轉換、處理紀錄、查詢、稽核。</p><table><tr><th>本次垂直切片</th><th>完成條件</th></tr><tr><td>變更案件狀態</td><td>權限、狀態機、並行控制、稽核、API 錯誤、整合測試完整</td></tr><tr><td>不納入</td><td>附件儲存、通知、全文檢索與完整前端；列入 backlog，不假裝已完成</td></tr></table></div><div class="box call warn"><strong>為什麼選垂直切片：</strong>一次驗證需求到資料庫的完整鏈，比先建立所有空殼 controller、service、repository 更能暴露真實風險。</div></section>
+<section id="sdlc"><h2>02｜把 ChatGPT 放進 SDLC，而不是取代 SDLC</h2><div class="grid3"><div class="card phase"><h3>1 需求</h3><p>找缺口、矛盾、角色、狀態、驗收。輸出「需求／假設／待確認」表。</p></div><div class="card phase"><h3>2 設計</h3><p>狀態機、API contract、schema、constraint、並行與稽核策略。</p></div><div class="card phase"><h3>3 實作</h3><p>先最小垂直切片；每次變更都能編譯、測試與 review。</p></div><div class="card phase"><h3>4 驗證</h3><p>單元、整合、權限、並行、migration 與失敗情境。</p></div><div class="card phase"><h3>5 交付</h3><p>OpenAPI、ADR、migration、測試證據、操作與回復說明。</p></div><div class="card phase"><h3>6 回饋</h3><p>把缺陷回寫需求與測試；不讓文件、schema 與 code 漂移。</p></div></div><pre>第一輪 Prompt：
+先不要寫程式。針對案件狀態變更，找出會改變
+權限、狀態機、資料一致性、稽核與驗收測試的未知事項。
+依風險排序問 7 題；每題說明若不確認的後果。</pre></section>
+<section id="design"><h2>03｜從需求建立可驗證設計</h2><h3>狀態轉換</h3><table><tr><th>目前</th><th>可轉換</th><th>角色</th><th>必要條件</th></tr><tr><td>Draft</td><td>Submitted</td><td>承辦人</td><td>必要欄位完整</td></tr><tr><td>Submitted</td><td>InReview</td><td>主管</td><td>已指派審查人</td></tr><tr><td>InReview</td><td>Approved / Rejected</td><td>主管</td><td>意見不可空白</td></tr><tr><td>Rejected</td><td>Draft</td><td>承辦人</td><td>建立修正紀錄</td></tr></table>
+<h3>資料庫先守住不變條件</h3><pre>create table cases (
+  id uuid primary key,
+  title varchar(200) not null,
+  status varchar(30) not null
+    check (status in ('Draft','Submitted','InReview','Approved','Rejected')),
+  version integer not null default 1,
+  updated_at timestamptz not null
+);
+
+create table case_status_history (
+  id uuid primary key,
+  case_id uuid not null references cases(id),
+  from_status varchar(30) not null,
+  to_status varchar(30) not null,
+  changed_by uuid not null,
+  reason text,
+  changed_at timestamptz not null
+);</pre><div class="box call"><strong>分工：</strong>應用層負責角色、轉換規則與友善錯誤；資料庫 constraint 負責最後防線。不能因為已有 C# validation 就放棄資料庫完整性。</div></section>
+<section id="code"><h2>04｜API 與核心實作</h2><table><tr><th>項目</th><th>Contract</th></tr><tr><td>Endpoint</td><td>POST /api/cases/{id}/status-transitions</td></tr><tr><td>輸入</td><td>targetStatus、reason、expectedVersion</td></tr><tr><td>成功</td><td>200，回傳新狀態、版本、updatedAt</td></tr><tr><td>錯誤</td><td>400 格式／規則、403 權限、404 不存在、409 並行衝突</td></tr></table><pre>public sealed record ChangeStatusRequest(
+    CaseStatus TargetStatus,
+    string? Reason,
+    int ExpectedVersion);
+
+public Result ChangeStatus(
+    CaseStatus target, Guid actorId, string? reason, int expectedVersion)
+{
+    if (Version != expectedVersion)
+        return Result.Conflict("CASE_VERSION_CONFLICT");
+
+    if (!StatusTransitions.IsAllowed(Status, target))
+        return Result.Invalid("INVALID_STATUS_TRANSITION");
+
+    var previous = Status;
+    Status = target;
+    Version++;
+    UpdatedAt = DateTimeOffset.UtcNow;
+    _history.Add(CaseStatusChanged.Create(
+        Id, previous, target, actorId, reason, UpdatedAt));
+
+    return Result.Success();
+}</pre><div class="box call warn"><strong>範例刻意未宣稱完整：</strong>仍需 authorization policy、transaction、EF mapping、unique／check constraint、錯誤映射、logging 與實際併發測試。成熟做法是要求 ChatGPT 明列未實作部分，而不是把片段稱為 production-ready。</div></section>
+<section id="test"><h2>05｜測試不是只有 happy path</h2><div class="grid"><div class="card"><h3>單元測試</h3><ul><li>合法與非法狀態轉換</li><li>理由必填規則</li><li>版本衝突</li><li>歷程事件內容</li></ul></div><div class="card"><h3>整合測試</h3><ul><li>實際 PostgreSQL constraint</li><li>transaction 回滾</li><li>兩個請求同時更新</li><li>HTTP 400/403/404/409 contract</li></ul></div><div class="card"><h3>安全測試</h3><ul><li>未登入與錯誤角色</li><li>跨單位案件越權</li><li>稽核紀錄不可竄改</li><li>輸入長度與惡意內容</li></ul></div><div class="card"><h3>Migration 測試</h3><ul><li>既有資料能否轉換</li><li>upgrade／rollback 路徑</li><li>鎖表與停機風險</li><li>備份與復原演練</li></ul></div></div></section>
+<section id="practice"><h2>06｜畢業實作與驗收</h2><div class="card"><ol><li>寫 10 條可驗收需求，標示來源與待確認。</li><li>完成狀態轉換表、API contract、schema 與 ADR。</li><li>建立可啟動的 ASP.NET Core 專案與 PostgreSQL migration。</li><li>完成一條狀態變更垂直切片。</li><li>至少 12 個測試：規則、權限、並行、資料庫與 HTTP。</li><li>執行 build、test、migration 驗證，保存輸出。</li><li>產生 OpenAPI、README、部署與回復說明。</li><li>讓 ChatGPT 以 hostile reviewer 反查，再由你判斷是否接受。</li></ol><h3>真正完成</h3><p>不是「ChatGPT 已產生 code」，而是新環境能按 README 啟動；測試可重跑；資料庫規則存在；每項需求能追到設計與測試；未知與風險未被隱藏。</p></div></section>
+<section id="exam"><h2>07｜20 題綜合情境測驗</h2><p>總分至少 85，且四個能力軸均達 70% 才通過。</p><form id="examForm" class="quiz"><div id="questions"></div><button type="button" onclick="grade()">計分並分析弱項</button> <button type="button" class="sec" onclick="resetExam()">重新作答</button><div id="result" class="result"><div id="score" class="score"></div><h3 id="level"></h3><p id="advice"></p><div id="axes" class="axes"></div></div></form></section>
+<section><h2>官方技術參考</h2><ul><li><a href="https://learn.microsoft.com/en-us/aspnet/core/web-api/">Microsoft Learn：ASP.NET Core Web API</a></li><li><a href="https://learn.microsoft.com/en-us/ef/core/saving/concurrency">Microsoft Learn：EF Core concurrency</a></li><li><a href="https://www.postgresql.org/docs/current/ddl-constraints.html">PostgreSQL：Constraints</a></li><li><a href="https://www.postgresql.org/docs/current/transaction-iso.html">PostgreSQL：Transaction isolation</a></li></ul></section><footer class="footer">Part 6｜課程核心階段完成；下一步是全課綜合驗收與個人工作流。</footer></main>
+<script>const Q=[
+{a:"req",q:"需求只有『承辦人可更新狀態』，第一步？",o:["直接產生 controller","先確認角色、合法轉換、稽核與並行需求","先畫 UI"],c:1,e:"高影響未知事項應在實作前確認。"},
+{a:"req",q:"AI 發現矛盾需求並自行改合理版本，問題？",o:["越過核准權限","缺少 CSS","沒有 Search"],c:0,e:"建議不能偽裝成核准需求。"},
+{a:"design",q:"已有 C# validation，還需要 DB constraint 嗎？",o:["不需要","需要，資料庫是最後完整性防線","只在測試環境需要"],c:1,e:"資料可能從不同路徑進入。"},
+{a:"code",q:"更新狀態時 expectedVersion 不符，較合理 HTTP 狀態？",o:["200","409 Conflict","404"],c:1,e:"資源存在，但與客戶端版本衝突。"},
+{a:"test",q:"單元測試全過，是否證明 PostgreSQL constraint 正確？",o:["是","否，需實際資料庫整合測試","只要 mock 通過即可"],c:1,e:"mock 無法證明實際 DB 行為。"},
+{a:"req",q:"垂直切片的主要價值？",o:["先完成端到端價值與風險驗證","建立最多空資料夾","省略測試"],c:0,e:"從需求到 DB 的完整鏈能提早暴露問題。"},
+{a:"design",q:"狀態轉換規則最適合只散落在 controller 嗎？",o:["是","否，應集中為可測試的 domain 規則","放 README 即可"],c:1,e:"核心不變條件需要集中與可測試。"},
+{a:"code",q:"稽核歷程與狀態更新應？",o:["分兩次獨立儲存","同一 transaction","歷程可省略"],c:1,e:"避免狀態已變但稽核未寫入。"},
+{a:"test",q:"並行衝突只測單一請求足夠嗎？",o:["足夠","不足，需兩個競爭更新情境","提高 Thinking 即可"],c:1,e:"競爭條件需真實併發測試。"},
+{a:"req",q:"哪項最可驗收？",o:["系統要好用","非法狀態轉換回 400 且不新增歷程","介面專業"],c:1,e:"具體輸入、結果與副作用可驗證。"},
+{a:"design",q:"timestamptz 的使用仍需確認？",o:["不需","應統一時間語意、UTC 與顯示轉換","只看欄位名"],c:1,e:"型別不能取代完整時間策略。"},
+{a:"code",q:"AI 給一段可編譯 code，就算 production-ready？",o:["算","不算，還需權限、錯誤、transaction、觀測與測試","只要註解多就算"],c:1,e:"片段品質與正式交付有巨大差異。"},
+{a:"test",q:"migration 最重要只測 upgrade 嗎？",o:["是","否，還需既有資料、鎖定、回復與備份","只測檔名"],c:1,e:"資料庫變更的運維風險不能忽略。"},
+{a:"req",q:"需求、code、測試不一致時應？",o:["以最長文件為準","回到核准來源，建立差異與決策紀錄","讓 AI 猜"],c:1,e:"用治理與追溯解決漂移。"},
+{a:"design",q:"403 與 404 的選擇只由喜好決定？",o:["是","否，需依安全策略與 API contract 一致決定","一律 500"],c:1,e:"存在性隱藏與授權策略需要明確一致。"},
+{a:"code",q:"Problem Details 的價值？",o:["機器可讀且一致的錯誤 contract","讓成功回應更大","取代 logging"],c:0,e:"錯誤格式一致有利客戶端處理。"},
+{a:"test",q:"權限測試應只驗證未登入？",o:["是","否，還需錯誤角色與跨單位越權","權限不需測"],c:1,e:"已登入不等於有資源範圍權限。"},
+{a:"req",q:"backlog 功能尚未做，文件應？",o:["寫成已完成","明確標示不納入與後續範圍","完全隱藏"],c:1,e:"誠實範圍是交付可信度的一部分。"},
+{a:"design",q:"應用規則與 DB constraint 的關係？",o:["互相排斥","分層防護：友善規則 + 最後完整性","只需其中一個"],c:1,e:"兩者處理不同防線。"},
+{a:"test",q:"最終完成證據？",o:["ChatGPT 說完成","可重現 build/test/migration、需求追蹤與 QA","檔案很多"],c:1,e:"完成必須由可重現證據支持。"}];
+const N={req:"需求／SDLC",design:"架構／資料",code:"API／實作",test:"測試／交付"};function render(){questions.innerHTML=Q.map((x,i)=>'<div class="q" data-i="'+i+'"><div class="small">'+N[x.a]+' · 情境 '+(i+1)+'</div><h3>Q'+(i+1)+'. '+x.q+'</h3>'+x.o.map((o,j)=>'<label class="opt"><input type="radio" name="q'+i+'" value="'+j+'">'+o+'</label>').join("")+'<div class="ans"><b>最佳答案：'+String.fromCharCode(65+x.c)+'</b><br>'+x.e+'</div></div>').join("")}function grade(){let n=0,ax={req:[0,0],design:[0,0],code:[0,0],test:[0,0]};Q.forEach((x,i)=>{ax[x.a][1]++;let q=document.querySelector('[data-i="'+i+'"]'),p=q.querySelector("input:checked"),ok=p&&+p.value===x.c;if(ok){n++;ax[x.a][0]++}let a=q.querySelector(".ans");a.classList.add("show");a.classList.toggle("correct",!!ok);a.classList.toggle("incorrect",!ok)});let s=n*5,m=Math.min(...Object.values(ax).map(v=>100*v[0]/v[1]));score.textContent=s+" / 100";level.textContent=s>=85&&m>=70?"Part 6 理論達標":s>=85?"總分達標但能力偏科":s>=70?"基礎穩定，仍需補強":"尚未形成完整工程流程";advice.textContent=s>=85&&m>=70?"完成可執行畢業實作，才算整套課程真正通過。":"依低分能力軸重讀並用實際程式驗證。";axes.innerHTML=Object.entries(ax).map(([k,v])=>{let p=Math.round(100*v[0]/v[1]);return '<div class="axis"><b>'+N[k]+'</b><span style="float:right">'+p+'%</span><div class="bar"><div class="fill" style="width:'+p+'%"></div></div></div>'}).join("");result.classList.add("show");result.scrollIntoView({behavior:"smooth"})}function resetExam(){examForm.reset();document.querySelectorAll(".ans").forEach(a=>a.className="ans");result.classList.remove("show")}render();</script></body></html>
