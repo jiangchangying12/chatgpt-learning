@@ -1,0 +1,155 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>那台被借走兩次的投影機｜ChatGPT 故事實戰</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f6f2e9;color:#293334;font:18px/1.9 system-ui,"Noto Sans TC","Microsoft JhengHei",sans-serif}a{color:#12695d}header{background:#122f32;color:#f8f2df;padding:75px max(24px,calc((100% - 920px)/2))}header a{color:#b7e3cd}h1{font-size:clamp(38px,6vw,64px);line-height:1.2}h2{font-size:30px;line-height:1.45}h3{font-size:22px}main{max-width:940px;margin:auto;padding:24px}section{padding:38px 0;border-bottom:1px solid #d6d1c6;scroll-margin-top:20px}.eyebrow{letter-spacing:3px;color:#efd090}nav{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0}nav a{background:#fff;padding:6px 14px;border-radius:20px;text-decoration:none;font-size:15px}.chapter{color:#8a6540;font-size:14px;letter-spacing:2px}blockquote{margin:25px 0;padding:20px 24px;border-left:5px solid #b17843;background:#eee6d8}.note,.take{padding:20px 24px;background:#e4eee7;border-radius:12px}.note{font-size:16px}.chat{background:white;border:1px solid #d7ddd5;border-radius:16px;padding:20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#193337;color:#e2f0e7;padding:24px;border-radius:12px;font:15px/1.8 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font-size:16px;margin:24px 0}td,th{border:1px solid #d3d5c9;padding:12px;text-align:left;vertical-align:top}th{background:#e7e9df}details{background:#fff;border:1px solid #dadacf;border-radius:12px;margin:14px 0;padding:16px 20px}summary{cursor:pointer;font-weight:650}details p{font-size:17px}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.flow span{background:#21534e;color:white;padding:16px;border-radius:12px;text-align:center}.flow small{font-size:13px}.caption{font-size:14px;color:#596460}.demo{padding:20px;background:#e6ece5;border-radius:14px}button{cursor:pointer;background:#21534e;color:white;border:0;border-radius:8px;padding:12px;margin:5px;font:inherit;font-size:15px}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #be7620;outline-offset:3px}textarea{width:100%;min-height:240px;padding:16px;font:inherit;border:1px solid #7e9185;border-radius:12px}footer{padding:30px 0;font-size:15px}#log{font-size:16px} @media(max-width:640px){body{font-size:17px}main{padding:16px}table{font-size:14px}td,th{padding:7px}.flow{grid-template-columns:1fr}pre{padding:16px}}@media print{nav,.buttons{display:none}body{background:white}header{padding:20px;color:#111;background:white}details{break-inside:avoid}}</style></head><body><header><a href="../">← 回課程首頁</a><p class="eyebrow">STORY LAB · 完整示範篇</p><h1>那台被借走<br>兩次的投影機</h1><p>跟著阿哲與 ChatGPT，從一句「做個借用系統」走到能被驗證的交付。</p><p>設備借用 × ASP.NET Core × PostgreSQL<br>約 60–90 分鐘 · 先看完整故事，再獨立解題</p></header><main><nav aria-label="章節目錄"><a href="#c0">序 · 開場</a><a href="#c1">1 · 第一幕</a><a href="#c2">2 · 第二幕</a><a href="#c3">3 · 第三幕</a><a href="#c4">4 · 第四幕</a><a href="#c5">5 · 第五幕</a><a href="#c6">6 · 第六幕</a><a href="#c7">7 · 第七幕</a><a href="#c8">8 · 第八幕</a><a href="#c9">9 · 第九幕</a><a href="#c10">10 · 第十幕</a><a href="#c11">11 · 終章</a></nav><section id="c0"><div class="chapter">STORY 00</div><h2>開場｜一台投影機，兩張核准單</h2>
+<p>星期一，早上九點零五分。小晴抱著筆電站在器材室門口：「我十點要提案，昨天核准的投影機呢？」</p><p>管理員美玲翻開試算表，臉色變了一下。另一位同事阿凱也有一張核准單，設備編號一模一樣：<strong>P-001</strong>。</p><blockquote>主管：「阿哲，你不是會用 AI？幫我們做個借用系統吧。可以申請、核准、歸還就好，很簡單。」</blockquote><p>工程師阿哲打開 ChatGPT。他差點輸入「用 ASP.NET Core 和 PostgreSQL 做借用系統」，但停住了：<em>畫面能跑，和公司不再把設備借兩次，是兩回事。</em></p>
+<div class="note">這是一個虛構但貼近工作的完整示範。所有角色對話、AI 回應及業務數據都是教學設計；不是實際執行紀錄。你將讀完一次需求到交付的工作流程，並操作前端模型；本頁不是已完成部署的後端應用。</div>
+<h3>先看終點：本次到底要交付什麼？</h3><p>一份能追溯決策的 MVP 規格、一條「核准 → 領用 → 歸還」垂直切片設計、資料庫防線、測試計畫與上線檢查。故事中的成功不是「AI 寫了好多程式」，而是<strong>我們知道什麼已確認、什麼仍需驗證</strong>。</p></section><section id="c1"><div class="chapter">STORY 01</div><h2>第一幕｜先別讓漂亮答案替你決定需求</h2>
+<p>阿哲先試了一次模糊的問法。</p><pre>幫我設計一套專業的設備借用系統，要完整一點。</pre><div class="chat"><b>示範 AI 草案</b><p>加入預約月曆、主管簽核、電子郵件通知、逾期罰款，並在申請成功後扣除庫存。</p></div><p>看起來很完整。美玲卻問：「我們沒有罰款，而且申請還沒核准，為什麼就不能借給別人？」</p><p>第一個錯誤浮出來了：<strong>AI 把合理猜測寫得像既定政策。</strong>阿哲沒有要求它「更聰明一點」，而是改變工作順序。</p><pre>先不要寫程式。我們要解決設備重複借出的問題。
+請列出會改變資料模型或權限設計的關鍵問題。
+區分：已知事實、待確認事項、你的建議。
+不要自行把建議當成公司規定。</pre>
+<table><tr><th>關鍵問題</th><th>美玲確認的答案</th></tr><tr><td>一筆設備是一種品項，還是一台實體？</td><td>一台實體，有唯一設備編號。</td></tr><tr><td>何時占用設備？</td><td>核准時保留；申請時不保留。</td></tr><tr><td>是否可預約下個月？</td><td>MVP 不做未來時段預約。</td></tr><tr><td>誰能核准、領用、歸還？</td><td>管理員登記；員工只能申請及查自己的紀錄。</td></tr><tr><td>逾期會自動釋出嗎？</td><td>不會。沒還就是還在外面。</td></tr><tr><td>核准後一直沒領？</td><td>管理員可取消；本版不做自動到期。</td></tr></table>
+<p class="take">帶走的概念：好 Prompt 不是修飾詞多，而是能讓未決事項浮出來。</p>
+<details><summary>停一下：主管說「完整一點」，可以直接加通知寄送嗎？</summary><p>可以列為建議，但不能當成已授權功能。通知涉及收件人、個資、寄送時機與外部動作；先確認範圍。設計通知草稿和真的寄出是不同授權。</p></details></section><section id="c2"><div class="chapter">STORY 02</div><h2>第二幕｜給 AI 一本薄薄的案卷</h2>
+<p>午餐前，阿哲把確認結果整理成一張「案卷」。他不再把整段聊天丟回去要求 AI 自己猜哪句最新。</p><pre>【任務】設計設備借用 MVP 的核准流程。
+【已確認／規格 v1】
+一筆設備代表一台實體。Pending 不占用。
+Approved、CheckedOut 占用。逾期不釋出。
+不做未來預約、罰款、通知、自動核准。
+管理員操作核准、領用、歸還；員工看自己的借用。
+【技術】ASP.NET Core + PostgreSQL，版本尚待專案確認。
+【本輪成果】狀態轉移表 + 不變條件 + 驗收案例。
+【限制】不寫整個專案；新增假設另列，不能默默改規格。
+【檢查】找出至少三個容易漏掉的失敗情境。</pre>
+<p>這就是 Context：<strong>讓這一輪判斷所需的資訊到位</strong>，而不是字數越多越好。即使留在同一個對話，也要有可引用、可更新的決策摘要。</p>
+<h3>這一輪要搜尋嗎？</h3><p>美玲確認的內部政策，不需要上網找答案。若要選實際套件版本、查資料庫語法與安全設定，就查官方文件並記錄版本。本章的規則推導可以先做；不能把「AI 記得某個版本」當成部署依據。</p>
+<p>阿哲要求更仔細地比較並行情境，卻沒有要求 AI 保證正確。推理深度能幫助分析，<strong>不能取代資料庫測試、權限測試或事實查證</strong>。</p>
+<details><summary>停一下：換新對話會不會一定做不好？</summary><p>不會。帶入核准的規格、目前程式版本、已知失敗與本輪目標，就能接手。同一對話也不等於永遠記得全部細節。工作連續性靠可交接的案卷，不靠期待 AI 自動記住。</p></details></section><section id="c3"><div class="chapter">STORY 03</div><h2>第三幕｜把「不能重複借」變成能驗收的句子</h2>
+<p>「不可以重複借出。」主管點頭。阿哲追問：「兩個人同時按核准，也算嗎？」這句追問把漂亮需求變成工程問題。</p>
+<table><tr><th>ID</th><th>規則</th><th>可觀察的驗收結果</th></tr><tr><td>R1</td><td>同一設備最多一筆有效占用</td><td>兩筆 Pending 同時核准，最多一筆成功；另一筆衝突，不得留下核准稽核。</td></tr><tr><td>R2</td><td>只有管理員能核准</td><td>已登入員工直接呼叫核准 API 仍被拒絕，資料不變。</td></tr><tr><td>R3</td><td>狀態與稽核一起成立</td><td>稽核寫入失敗時，狀態修改也回滾。</td></tr><tr><td>R4</td><td>逾期不等於歸還</td><td>超過期限仍維持 CheckedOut，別人的核准仍失敗。</td></tr><tr><td>R5</td><td>重試不可造成重複副作用</td><td>重複歸還不新增第二筆歸還稽核。</td></tr></table>
+<pre>Given P-001 有兩筆 Pending：A、B
+When 兩個管理員同時核准 A 與 B
+Then 只有一筆成為 Approved
+And 有效占用筆數 = 1
+And 只有成功者新增核准稽核
+And 失敗者收到可理解的衝突訊息</pre>
+<p>這裡沒有規定 A 一定贏。<strong>先後順序可能不確定，但不變條件不能變。</strong></p>
+<details><summary>停一下：畫面已隱藏「核准」按鈕，R2 就通過了嗎？</summary><p>沒有。隱藏按鈕是介面體驗，後端仍須檢查登入與角色。員工也不能只靠換網址就讀到別人的紀錄；資源層級存取要另外驗證。</p></details></section><section id="c4"><div class="chapter">STORY 04</div><h2>第四幕｜逾期不是新的出口</h2>
+<p>AI 提議增加一個 Overdue 狀態。美玲說：「那今天一逾期，原本那筆 CheckedOut 不就不算占用了？」</p><p>阿哲把圖重畫了。這不是所有系統的唯一設計，但符合本案：<strong>逾期是由時間推導的標籤，不是釋出設備的生命週期狀態。</strong></p>
+<div class="flow"><span>Pending<br><small>尚未占用</small></span><span>Approved<br><small>已保留</small></span><span>CheckedOut<br><small>已領用，仍占用</small></span><span>Returned<br><small>已歸還，釋出</small></span></div>
+<p class="caption">主路徑由左至右（小螢幕由上至下）。旁支：Pending → Rejected／Cancelled；Approved → Cancelled。CheckedOut 必須歸還，不能直接取消來掩蓋未歸還事實。</p>
+<pre>isOverdue = status == CheckedOut AND nowUtc > dueAtUtc
+isOccupied = status IN (Approved, CheckedOut)</pre>
+<p>核准時必須設定未來的歸還期限；領用時再確認期限仍在未來。時間以 UTC 儲存，畫面依使用者時區顯示。剛好等於期限尚不算逾期，超過才算：邊界也要測。</p>
+<details><summary>停一下：改成「可預約下週一到週三」，只要加兩個日期欄位？</summary><p>不夠。目前保證的是任何時刻最多一筆有效占用，不是時段不重疊。未來預約會改變衝突模型、取消政策及測試；須重新設計區間重疊約束，不能直接沿用本章索引。</p></details></section><section id="c5"><div class="chapter">STORY 05</div><h2>第五幕｜兩個請求都說：我剛剛看過，沒人借</h2>
+<p>下午兩點，阿哲看到 AI 寫出的第一版邏輯：</p><pre>如果查不到有效占用：
+    把這筆申請改成 Approved
+    儲存</pre><p>「看起來對呀？」小晴問。阿哲把兩個請求並排放在白板上。</p>
+<table><tr><th>時刻</th><th>請求 A</th><th>請求 B</th></tr><tr><td>1</td><td>查詢：沒有占用</td><td></td></tr><tr><td>2</td><td></td><td>查詢：也沒有占用</td></tr><tr><td>3</td><td>更新 A 為 Approved</td><td></td></tr><tr><td>4</td><td></td><td>更新 B 為 Approved</td></tr></table>
+<p>兩邊都沒有說謊，只是都用過時的觀察做決定。阿哲補上最後一道防線：</p>
+<pre>-- 設計片段：loans 的每列是一筆申請
+CREATE UNIQUE INDEX ux_loans_one_active_equipment
+ON loans (equipment_id)
+WHERE status IN ('Approved', 'CheckedOut');</pre>
+<p>局部唯一索引只對符合條件的列要求唯一。兩筆申請可同時 Pending；一旦爭取同一設備的有效占用，資料庫不允許兩筆都成功。這是 PostgreSQL 支援的機制；此處不是已套用的 migration。<a href="https://www.postgresql.org/docs/current/indexes-partial.html">官方：Partial Indexes</a></p>
+<p>資料模型還需要 equipment_id、borrower_id 的非空與外鍵，status 合法值約束，以及占用／歸還階段必要時間欄位的檢查。索引只解決「最多一筆占用」，<strong>不會替你檢查管理員權限或合法狀態轉移</strong>。</p>
+<details><summary>停一下：只要包 transaction 就不會雙重核准？</summary><p>不一定。原子性確保一組修改一起成功或失敗，不代表兩個交易不會都讀到「沒有占用」。本案用唯一索引守住跨申請的不變條件，並用條件更新守住同一申請的狀態轉移。</p></details></section><section id="c6"><div class="chapter">STORY 06</div><h2>第六幕｜把成功與失敗都寫進 API 契約</h2>
+<p>阿哲沒有直接叫 AI「補上錯誤處理」，而是先要求列出使用者會遇到的結果。</p><pre>請依 R1–R5 設計核准 API 契約。
+列出成功、未登入、無權限、找不到、
+狀態已改變、設備被占用的回應。
+操作人從伺服器驗證的登入身分取得，不接受 body 的角色。</pre>
+<table><tr><th>請求</th><th>成功</th><th>重要失敗</th></tr><tr><td>POST /loans/{id}/approve</td><td>200，回傳 Approved 與 dueAt</td><td>401 未登入、403 非管理員、404 不存在、409 狀態／占用衝突、400 不合法期限</td></tr><tr><td>POST /loans/{id}/checkout</td><td>200，回傳 CheckedOut</td><td>409 非 Approved 或期限已過</td></tr><tr><td>POST /loans/{id}/return</td><td>200，回傳 Returned</td><td>409 非 CheckedOut；若已 Returned，依本案契約回 200 但不再新增稽核</td></tr></table>
+<p>以上操作都先做管理員授權；錯誤不能包含 SQL、連線資訊或其他人的個資。員工查自己的紀錄另做 borrower_id 篩選，不能信任前端傳來的 userId。</p>
+<p>美玲又問：「我按歸還後網路斷了，再按一次呢？」這讓阿哲看見重試不是少見例外，而是正常使用情境。<strong>同一結果可重回，不代表副作用可重做。</strong></p>
+<details><summary>停一下：收到逾時，可以斷言後端沒成功嗎？</summary><p>不可以。可能資料已提交，只是回應沒到。先查最新狀態，或按已定義的可重試契約重送；對寄信、扣款等額外副作用還需要獨立去重設計。</p></details></section><section id="c7"><div class="chapter">STORY 07</div><h2>第七幕｜這次，請 AI 寫小一點</h2>
+<p>阿哲準備請 AI 寫完整專案，想了想改成：「先做核准這一條。」小切片比較容易審查，也容易用測試推翻。</p><pre>依規格 v1，先產出 ApproveLoan 的服務流程。
+保留條件更新、局部唯一索引衝突處理、稽核同交易。
+標明示意碼和未實作依賴。不要宣稱測試通過。
+另外列出：這段程式仍不能保證什麼。</pre>
+<pre>// C# 風格示意碼；不是可直接編譯的實作。
+RequireAuthenticatedAdmin(actor);
+ValidateFutureDueAt(dueAtUtc);
+await using var tx = await db.BeginTransactionAsync();
+try {
+    // 參數化 SQL：
+    // UPDATE loans SET status='Approved', due_at=@due
+    // WHERE id=@id AND status='Pending' RETURNING id;
+    var changed = await ConditionalApprove(id, dueAtUtc);
+    if (!changed) {
+        // 同交易查明不存在或狀態衝突；不建立稽核
+        throw await NotFoundOrConflict(id);
+    }
+    await InsertAudit(id, "Approved", actor.Id);
+    await tx.CommitAsync();
+    return Approved;
+}
+catch (PostgresException ex)
+    when (ex.SqlState == "23505"
+       &amp;&amp; ex.ConstraintName == "ux_loans_one_active_equipment") {
+    await tx.RollbackAsync();
+    return EquipmentOccupiedConflict;
+}
+// 其他例外不得偽裝成占用衝突；交易 dispose 回滾，
+// 由統一錯誤處理記錄安全診斷資訊並回適當錯誤。</pre>
+<p>同一筆申請被核准兩次時，條件更新只允許從 Pending 轉移；不同申請搶同一設備時，由索引限制。稽核與更新包在同一交易，才不會留下「核准成功，稽核卻失蹤」的半套結果。</p>
+<p>EF Core 在支援交易的 provider 上，單次 SaveChanges 通常以交易處理；本例有多個操作，必須明確保證它們使用同一連線／交易。不能因為程式出現 BeginTransaction 就假定所有 helper 都參與了它。<a href="https://learn.microsoft.com/en-us/ef/core/saving/transactions">官方：Using Transactions</a></p>
+<div class="note">未實作依賴：登入與授權、實體與 migration、資料存取 helper、HTTP mapping、連線設定、時鐘注入、完整例外處理與 integration tests。這段碼展示設計，不代表後端已完成或通過編譯。</div>
+<details><summary>停一下：把所有資料庫錯誤都回 409，比較安全？</summary><p>不對。連線中斷、SQL 錯誤、其他約束失敗都不是「有人先借走」。只精準映射指定衝突，其餘保留可診斷性，對外不洩漏敏感細節。</p></details></section><section id="c8"><div class="chapter">STORY 08</div><h2>第八幕｜你坐到管理員的椅子上</h2>
+<p>美玲說：「程式我看不懂，但你讓我按一次，我就知道有沒有怪。」下面是<strong>只在這個網頁執行的狀態模型</strong>：不連資料庫、不登入、不寄信、不證明並行安全。它讓你看清規則造成的結果。</p>
+<p>建議照順序按：核准 A → 核准 B → 領用 A → 時間超過期限 → 再核准 B → 歸還 A → 核准 B → 再歸還 A。</p>
+<div class="demo"><p id="state" aria-live="polite"></p><div class="buttons">
+<button data-action="approveA">核准 A（小晴）</button><button data-action="approveB">核准 B（阿凱）</button><button data-action="checkout">領用 A</button><button data-action="late">時間超過期限</button><button data-action="return">歸還 A</button><button data-action="reset">重設故事</button></div><ol id="log" aria-live="polite"></ol></div>
+<details><summary>完整走法的結果與解析</summary><p>A 核准成功，占用 P-001；B 核准衝突。A 領用後，即使逾期仍占用，B 仍失敗。A 歸還才釋出，B 此時可核准。再次歸還 A 回傳已歸還，不新增稽核，也不能釋出 B 的占用。</p><p>最後應為 A=Returned、B=Approved、稽核 4 筆（A 核准、A 領用、A 歸還、B 核准）。讓時間前進不是使用者狀態操作，不寫入此示範的操作稽核。</p></details></section><section id="c9"><div class="chapter">STORY 09</div><h2>第九幕｜綠色勾勾，也可能只是畫出來的</h2>
+<p>AI 交出一张測試表，每列都寫「通過」。阿哲問：「你在哪個環境、用哪個版本、執行了哪個命令？」對方若拿不出紀錄，這些勾勾只能刪掉。</p><pre>請產出測試案例，不要填入未執行的實際結果。
+每例包含前置資料、操作、預期 HTTP、資料列與稽核斷言。
+並行案例必須使用真實 PostgreSQL 的兩個獨立連線，
+不能只用前端按鈕或記憶體 fake 宣稱通過。</pre>
+<table><tr><th>測試</th><th>預期證據</th><th>本教材後端執行狀態</th></tr><tr><td>一般核准</td><td>200；Approved；一筆核准稽核</td><td>未執行</td></tr><tr><td>兩申請並行核准</td><td>一個成功、一個 409；有效占用=1；核准稽核=1</td><td>未執行</td></tr><tr><td>同申請並行核准</td><td>只轉移一次；只一筆核准稽核</td><td>未執行</td></tr><tr><td>稽核故障注入</td><td>整筆回滾；仍 Pending；無稽核</td><td>未執行</td></tr><tr><td>員工偽造 admin 欄位</td><td>403；狀態、稽核不變</td><td>未執行</td></tr><tr><td>歸還重試</td><td>重送仍 200；歸還稽核維持一筆</td><td>未執行</td></tr><tr><td>期限邊界</td><td>等於期限不逾期；超過才逾期；兩者都不釋出</td><td>未執行</td></tr></table>
+<p>並行測試要安排兩個工作者競爭，記錄回應、交易結果及最終資料；不要只依序呼叫兩次。使用隔離測試資料庫，不能在正式借用資料上試故障。</p>
+<details><summary>停一下：模型幫自己審查三次，可以取代上述測試？</summary><p>不行。自我審查有助找遺漏，但可能反覆忽略同一假設。需要可執行的檢查、獨立觀察與失敗證據；檢查次數不是正確率證明。</p></details></section><section id="c10"><div class="chapter">STORY 10</div><h2>第十幕｜交付不是把程式壓縮寄出去</h2>
+<p>星期五，美玲已經能說出「逾期不釋出」。阿哲準備交付，卻在舊資料中找到兩筆同設備的有效核准。若直接建立唯一索引，migration 會失敗。</p><p>他沒有讓 AI 自動刪掉其中一筆，而是產生衝突清單，請管理員確認真實借用狀態，保留修正紀錄。<strong>技術上的重複，不代表可以替業務決定哪筆是真的。</strong></p>
+<table><tr><th>交付物</th><th>必須讓接手者知道</th></tr><tr><td>規格與決策紀錄</td><td>R1–R5、角色、狀態圖、不做未來預約、尚未決定事項</td></tr><tr><td>程式與資料庫版本</td><td>commit、套件鎖定、migration、設定樣板；不含密碼</td></tr><tr><td>測試證據</td><td>環境、命令、時間、結果；未測明列，不能混入通過欄</td></tr><tr><td>部署與復原</td><td>備份與還原演練、既有衝突清查、暫停寫入／切換方案、失敗復原步驟</td></tr><tr><td>操作與觀察</td><td>核准／歸還流程、衝突訊息、錯誤監控、負責人</td></tr></table>
+<p>正式部署還需依資料量、維護窗口與實際版本確認 migration 策略。回滾不能只是「把索引刪掉」；那會拿掉保護，必須評估舊版程式與資料相容性。</p>
+<div class="note">故事的工作流程示範到此完整走完；真正系統的完成門檻仍是實作、可重現的測試及部署驗證。本教材交付的是教學，不把敘述當成執行證據。</div></section><section id="c11"><div class="chapter">STORY 11</div><h2>終章｜你真正學到的，不是設備借用</h2>
+<p>美玲關上器材櫃：「下次再做請假系統，是不是把設備換成假單就好？」</p><p>阿哲笑了：「要帶走的是做事方法，不是照抄資料表。」</p>
+<table><tr><th>故事中的動作</th><th>可遷移的能力</th></tr><tr><td>先問何時占用</td><td>找出改變設計的未決需求</td></tr><tr><td>整理案卷 v1</td><td>控制 Context，區分事實、假設與建議</td></tr><tr><td>要求失敗案例</td><td>用反例檢驗答案，不只看成功路徑</td></tr><tr><td>分開條件更新、索引與交易</td><td>知道每道機制保障什麼、沒保障什麼</td></tr><tr><td>要求執行證據</td><td>區分建議、示意、已實作與已驗證</td></tr></table>
+<p>這些方法也能用在 Claude；本章是示範如何與 ChatGPT 協作，不是宣稱另一個產品沒有工作流程能力。</p>
+<h3>真正的吸收測試：不看上面，換一個規則</h3>
+<p><strong>新需求：</strong>小晴已領用 P-001，想延長三天。員工可以提出延期，但只有管理員可核准。若設備已逾期，仍可申請；核准前原期限不變。</p>
+<p>請先自行寫出：要問的問題、最小 Context、狀態／資料變更、兩個失敗情境及其可觀察斷言。不要只把「借用」換成「延期」。下方可寫草稿（不會自動儲存，離頁前請自行複製）。</p>
+<textarea aria-label="延期需求獨立作答" placeholder="1. 我還需要確認…&#10;2. 給 AI 的上下文…&#10;3. 資料與轉移…&#10;4. 失敗與驗證…"></textarea>
+<details><summary>寫完再開：參考解題與 100 分人工評分規準</summary>
+<p><b>20 分｜找未知：</b>問最長可延幾天、可否重複申請、誰能取消、以原期限或核准日為基準。每個真正影響設計的問題 5 分，最多 20；不能自行當成既定政策。</p>
+<p><b>20 分｜Context：</b>說明目前 CheckedOut、現有 dueAt、占用不釋出、管理員核准前期限不變。各 5 分。</p>
+<p><b>20 分｜模型：</b>延期申請與借用生命週期分開（5）；保存 proposedDueAt 與原核准期限（5）；核准時才更新 dueAt（5）；更新與稽核同交易（5）。這是參考設計，不是唯一資料表答案。</p>
+<p><b>30 分｜反例：</b>提出「等待核准時先歸還」與「兩個管理員同時處理延期」。各 15 分：前置條件 5、預期行為 5、資料／稽核斷言 5。核准時須重新確認仍 CheckedOut；並行處理不得重複核准或覆寫較新的期限。</p>
+<p><b>10 分｜證據邊界：</b>列出需要真實後端／DB 測試（5）；沒有執行結果不宣稱通過（5）。</p>
+<p>示範 Prompt：「依設備借用規格 v1，新增延期申請。先列未決政策，不直接實作。產出申請與借用狀態的關係、原期限更新時點，以及『先歸還後核准』『並行核准』的驗收案例。不要讓待核准申請改變有效期限。」</p>
+<p><strong>解讀：</strong>90–100 表示本次回答涵蓋主要重點，仍不代表已具備實作能力；75–89 補弱項；低於 75 重讀對應場景。若先看過答案再寫，這次分數只算練習。隔天改做「取消核准」，不看答案重做，才能增加對遷移能力的信心。</p></details>
+<h3>六道容易答太快的口頭追問</h3>
+<details><summary>設備歸還後，刪掉舊借用紀錄就能釋出？</summary><p>不應如此。Returned 已不在占用索引範圍，保留歷史才能追溯；刪資料不是狀態設計。</p></details><details><summary>兩筆 Pending 算不算資料重複？</summary><p>依本案不算。尚未占用，允許多人申請；業務上的不變條件不是『每台只能有一筆紀錄』。</p></details><details><summary>有官方文件連結，就表示這段程式用法正確？</summary><p>不表示。來源支持機制，不證明你使用同一交易、正確參數或完整例外處理；仍須檢查與執行。</p></details><details><summary>核准衝突直接自動重试，直到成功？</summary><p>不適合。設備確實被占用時，重試不會改變業務事實。應呈現衝突並更新狀態，不無限重試。</p></details><details><summary>使用者要求做系統，就能把真實員工名單放進教材？</summary><p>不能推定。教學用虛構或去識別資料；真實資料的存取、用途與分享範圍需要分別確認。</p></details><details><summary>我能背出唯一索引，就算吸收這章？</summary><p>還不夠。要能解釋它不管權限、不管合法轉移、不能直接支援未來時段預約，並能提出可驗證反例。</p></details></section><footer>本篇是 Part 1–6 的故事式應用補篇。閱讀完成不等於能力驗證；請以獨立遷移題與可重現實作檢查吸收程度。<p><a href="../">回首頁</a> · <a href="../practice1/">觀念陷阱題庫</a> · <a href="../part6/">Part 6</a></p></footer></main><script>function initial(){return {a:'Pending',b:'Pending',late:false,audit:0};}
+function transition(s,action){
+ s={...s}; let message='';
+ const occupied=()=>['Approved','CheckedOut'].includes(s.a)||['Approved','CheckedOut'].includes(s.b);
+ if(action==='reset')return {s:initial(),message:'重新開始：兩筆申請都未占用。'};
+ if(action==='approveA'||action==='approveB'){
+ const key=action==='approveA'?'a':'b';
+ if(s[key]!=='Pending')message='狀態衝突：不是 Pending。';
+ else if(occupied())message='409：P-001 已被占用，申請保持 Pending。';
+ else{s[key]='Approved';s.audit++;message=key.toUpperCase()+' 核准成功，保留 P-001。';}
+ }else if(action==='checkout'){
+ if(s.a!=='Approved')message='409：A 不是 Approved。';
+ else if(s.late)message='409：期限已過，須先處理期限。';
+ else{s.a='CheckedOut';s.audit++;message='A 領用成功。';}
+ }else if(action==='late'){s.late=true;message='時間已超過期限；不會自動釋出設備。';}
+ else if(action==='return'){
+ if(s.a==='Returned')message='200：A 已歸還，不新增稽核、不影響 B。';
+ else if(s.a!=='CheckedOut')message='409：A 不是 CheckedOut。';
+ else{s.a='Returned';s.audit++;message='A 歸還成功，釋出占用。';}
+ }return {s,message};
+}
+let state=initial();
+function render(){document.getElementById('state').textContent='A：'+state.a+(state.a==='CheckedOut'&&state.late?'（逾期）':'')+' ｜ B：'+state.b+' ｜ 操作稽核：'+state.audit+' 筆';}
+document.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>{
+ const action=button.dataset.action; const result=transition(state,action);state=result.s;
+ const log=document.getElementById('log');if(action==='reset')log.replaceChildren();
+ const item=document.createElement('li');item.textContent=result.message;log.append(item);render();
+}));render();</script></body></html>
