@@ -9,6 +9,7 @@
 - Part 1–2 實戰驗收：6 個案例、3 個實作、20 題觀念陷阱題
 - Part 3：Search、Deep Research、Files（已發布，含實作與 20 題分項評量）
 - Part 4：文件、試算表、簡報與圖片（已發布，含成品實作與 20 題分項評量）
-- Part 5–6：整合與 .NET + PostgreSQL 實戰（規劃中）
+- Part 5：Projects、Memory、Plugins、Automation 與 Work（已發布）
+- Part 6：ASP.NET Core + PostgreSQL 完整實戰（規劃中）
 
 網站透過 GitHub Pages 發布。
