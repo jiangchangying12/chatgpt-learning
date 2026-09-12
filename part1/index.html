@@ -47,6 +47,7 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 .toc a{text-decoration:none;color:#cbd8ee;font-size:14px}
 .challenge{background:linear-gradient(135deg,#13273a,#17213a);border:1px solid #33526b;border-radius:20px;padding:26px}
 @media(max-width:800px){.hero,.grid,.grid3,.compare,.branch{grid-template-columns:1fr}.hero{padding-top:42px}.arrow{transform:rotate(90deg)}h2{font-size:27px}.wrap{padding-left:16px;padding-right:16px}}
+.q{padding:22px 0;border-bottom:1px solid var(--line)}.q:last-child{border:0}.option{display:block;margin:9px 0;padding:11px 14px;background:#10192b;border:1px solid #2d405f;border-radius:12px;cursor:pointer}.option:hover{border-color:#56749c}.option input{margin-right:10px}.answer{display:none;margin-top:12px;padding:14px;border-radius:12px;background:#0e1728}.answer.show{display:block}.correct{border-left:4px solid var(--good)}.incorrect{border-left:4px solid var(--bad)}button{border:0;border-radius:12px;padding:13px 19px;font-weight:800;cursor:pointer;background:var(--accent);color:#082019;font-size:16px}.secondary{background:#263957;color:#eaf2ff;margin-left:8px}.scorebox{display:none;margin-top:20px;padding:24px;border-radius:18px;background:#101b2f;border:1px solid #3c5a7c}.scorebox.show{display:block}.score{font-size:48px;font-weight:900;color:var(--accent)}
 @media print{body{background:#fff;color:#111}.toc{display:none}.card,.hero-card,.quiz,.callout,.flow,table,details,.challenge{background:#fff;color:#111;border-color:#bbb}.small,.lead,.footer{color:#444}pre{background:#f5f5f5;color:#111}}
 </style>
 </head>
@@ -62,7 +63,7 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
   </div>
   <div class="hero-card">
     <div class="label">完成標準</div>
-    <div class="kpi">4 個判斷</div>
+    <div class="kpi">4 個判斷</div><p><strong>驗收門檻：80 / 100 分</strong></p>
     <p>遇到一個需求時，你能先判斷：<strong>要不要最新資料、要不要深度推理、要不要使用自己的資料、最後要回答還是完成工作。</strong></p>
     <p class="small">版本註記：教材以 2026 年 9 月的 ChatGPT 產品概念編寫；實際功能可依方案、地區與工作區設定而不同。</p>
   </div>
@@ -222,27 +223,29 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 </section>
 
 <section id="quiz">
-<h2>07｜吸收測驗：先回答，再展開答案</h2>
-
-<div class="quiz">
-<h3>Q1. 「請解釋什麼是資料庫正規化」需要先使用 Search 嗎？</h3>
-<details><summary>顯示答案</summary><p><strong>通常不需要。</strong>這是穩定的基礎知識，一般對話即可。除非你特別要求最新教學、某產品目前版本或外部來源佐證。</p></details>
-
-<h3>Q2. 「目前 .NET 最新 LTS 版本是什麼？」應該怎麼處理？</h3>
-<details><summary>顯示答案</summary><p><strong>需要最新資訊。</strong>關鍵字是「目前、最新」，應搜尋並優先確認官方來源，而不是只靠既有模型知識。</p></details>
-
-<h3>Q3. 有一份 150 頁需求書，要找需求矛盾。第一優先是 Deep Research 嗎？</h3>
-<details><summary>顯示答案</summary><p><strong>不是。</strong>核心資料已經在你的文件裡，應先用 Files + reasoning。只有當你需要拿外部標準、法規或同類系統資料來比對時，才加入 Search / Deep Research。</p></details>
-
-<h3>Q4. Search 和 Deep Research 最簡單的差別是什麼？</h3>
-<details><summary>顯示答案</summary><p><strong>Search 偏向快速取得最新資訊；Deep Research 偏向多來源、較完整、需要整合與可追溯引用的研究。</strong>OpenAI 目前也以「快速答案 vs 深入分析」來區分兩者的典型用途。</p></details>
-
-<h3>Q5. 為什麼「一個超長 Prompt」不一定是最好的 ChatGPT 使用方法？</h3>
-<details><summary>顯示答案</summary><p>因為工作品質不只取決於文字指令，還取決於<strong>是否選對資訊來源、工具、上下文與產出方式</strong>。複雜任務通常更適合分階段迭代。</p></details>
-
-<h3>Q6. 什麼時候才算真正完成 Part 1？</h3>
-<details><summary>顯示答案</summary><p>當你看到一個需求時，不會立刻只想「Prompt 要怎麼寫」，而是能先判斷：① 是否需要最新資料？② 是否需要深入推理？③ 是否需要自己的檔案／外部資料？④ 要的是答案還是實際成果？</p></details>
-</div>
+<h2>07｜學習驗收：100 分互動測驗</h2>
+<p>共 10 題，每題 10 分。先完成所有題目，再按「計分並顯示解析」。未選的題目視為答錯。</p>
+<form id="examForm" class="quiz">
+<div class="q" data-answer="b"><h3>Q1. 「請解釋什麼是資料庫正規化」通常先用哪種方式？</h3><label class="option"><input type="radio" name="q1" value="a">Deep Research</label><label class="option"><input type="radio" name="q1" value="b">一般對話</label><label class="option"><input type="radio" name="q1" value="c">外部 App</label><div class="answer"><strong>答案 B。</strong>這是穩定的基礎知識，一般對話通常足夠；若要求最新產品實作或來源佐證，再加入搜尋。</div></div>
+<div class="q" data-answer="c"><h3>Q2. 「目前 .NET 最新 LTS 版本」應如何處理？</h3><label class="option"><input type="radio" name="q2" value="a">只靠模型記憶</label><label class="option"><input type="radio" name="q2" value="b">提高 Thinking 即可</label><label class="option"><input type="radio" name="q2" value="c">搜尋並以官方來源確認</label><div class="answer"><strong>答案 C。</strong>「目前、最新」代表資訊可能改變，必須查證；Thinking 不會自動更新事實。</div></div>
+<div class="q" data-answer="a"><h3>Q3. 分析 150 頁需求書的矛盾，第一優先是？</h3><label class="option"><input type="radio" name="q3" value="a">Files + reasoning</label><label class="option"><input type="radio" name="q3" value="b">只做 Web Search</label><label class="option"><input type="radio" name="q3" value="c">圖片生成</label><div class="answer"><strong>答案 A。</strong>主要證據在使用者提供的文件中；需要拿法規或標準比對時，才加入外部搜尋或研究。</div></div>
+<div class="q" data-answer="b"><h3>Q4. Search 與 Deep Research 的典型差別是？</h3><label class="option"><input type="radio" name="q4" value="a">兩者完全相同</label><label class="option"><input type="radio" name="q4" value="b">快速查詢 vs. 多來源整合研究</label><label class="option"><input type="radio" name="q4" value="c">文字回答 vs. 圖片回答</label><div class="answer"><strong>答案 B。</strong>Search 適合快速取得或核實資訊；Deep Research 適合多來源、需整合與可追溯引用的完整研究。</div></div>
+<div class="q" data-answer="c"><h3>Q5. 哪項最能代表「從回答升級成完成工作」？</h3><label class="option"><input type="radio" name="q5" value="a">解釋 Excel 是什麼</label><label class="option"><input type="radio" name="q5" value="b">列出表格欄位建議</label><label class="option"><input type="radio" name="q5" value="c">建立可下載的需求追蹤試算表</label><div class="answer"><strong>答案 C。</strong>它交付的是可使用成果，而不只是描述或建議。</div></div>
+<div class="q" data-answer="a"><h3>Q6. 教材為什麼不把 Claude 當成「傳統對話」代表？</h3><label class="option"><input type="radio" name="q6" value="a">Claude 也有 Projects、Artifacts、Research 與整合能力</label><label class="option"><input type="radio" name="q6" value="b">因為 Claude 不能聊天</label><label class="option"><input type="radio" name="q6" value="c">因為兩者功能完全相同</label><div class="answer"><strong>答案 A。</strong>這裡比較的是使用方式，不是把任何產品武斷地簡化或評定高下。</div></div>
+<div class="q" data-answer="c"><h3>Q7. 遇到任務時，最先問自己的問題應該是？</h3><label class="option"><input type="radio" name="q7" value="a">Prompt 要寫多長</label><label class="option"><input type="radio" name="q7" value="b">要不要使用最多工具</label><label class="option"><input type="radio" name="q7" value="c">任務類型與期望成果是什麼</label><div class="answer"><strong>答案 C。</strong>先判斷任務，才能選擇對話、推理、搜尋、檔案、研究或產出工具。</div></div>
+<div class="q" data-answer="b"><h3>Q8. 「研究 PostgreSQL HA 方案，需來源、RTO/RPO 與選型結論」較適合？</h3><label class="option"><input type="radio" name="q8" value="a">單純改寫</label><label class="option"><input type="radio" name="q8" value="b">Deep Research</label><label class="option"><input type="radio" name="q8" value="c">圖片生成</label><div class="answer"><strong>答案 B。</strong>這是多來源、需要證據與整合判斷的研究任務。</div></div>
+<div class="q" data-answer="a"><h3>Q9. 下列哪個順序較合理？</h3><label class="option"><input type="radio" name="q9" value="a">定義成果 → 提供 Context → 選能力 → 產出 → 驗證</label><label class="option"><input type="radio" name="q9" value="b">先寫超長 Prompt → 接受第一個答案</label><label class="option"><input type="radio" name="q9" value="c">先用所有工具 → 再決定需求</label><div class="answer"><strong>答案 A。</strong>這個順序能降低選錯工具、誤解 Context 與無法驗收的風險。</div></div>
+<div class="q" data-answer="c"><h3>Q10. 哪一項最能證明你完成 Part 1？</h3><label class="option"><input type="radio" name="q10" value="a">背出所有功能名稱</label><label class="option"><input type="radio" name="q10" value="b">知道 ChatGPT 和 Claude 誰比較強</label><label class="option"><input type="radio" name="q10" value="c">看到需求時能先判斷資訊、推理、Context 與成果類型</label><div class="answer"><strong>答案 C。</strong>本章重點是形成工具選擇與工作流程判斷，而不是背功能或做武斷產品排名。</div></div>
+<button type="button" onclick="grade()">計分並顯示解析</button><button type="button" class="secondary" onclick="resetExam()">重新作答</button>
+<div id="scorebox" class="scorebox" aria-live="polite"><div id="score" class="score"></div><h3 id="level"></h3><p id="advice"></p></div>
+</form>
+<h3>評分標準</h3>
+<table><thead><tr><th>分數</th><th>吸收程度</th><th>下一步</th></tr></thead><tbody>
+<tr><td>90–100</td><td>能獨立判斷</td><td>進入 Part 2，並把四個判斷用在真實需求。</td></tr>
+<tr><td>80–89</td><td>已達標</td><td>複習錯題解析後進入 Part 2。</td></tr>
+<tr><td>60–79</td><td>概念有基礎，但選擇仍不穩</td><td>重做五個實際案例與案件追蹤練習。</td></tr>
+<tr><td>0–59</td><td>尚未吸收</td><td>重讀五層心智模型與 Claude 經驗對照。</td></tr>
+</tbody></table>
 </section>
 
 <section>
@@ -274,5 +277,7 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 下一章建議：Part 2「Prompt、Context 與 Thinking：怎麼把需求交代給 ChatGPT」。
 </footer>
 </div>
-</body>
+<script>
+function grade(){let score=0;document.querySelectorAll('.q').forEach(q=>{const pick=q.querySelector('input:checked'),ok=pick&&pick.value===q.dataset.answer;if(ok)score+=10;const a=q.querySelector('.answer');a.classList.add('show');a.classList.toggle('correct',!!ok);a.classList.toggle('incorrect',!ok)});let level,advice;if(score>=90){level='能獨立判斷';advice='你已掌握 Part 1，可進入 Part 2，並把四個判斷用在真實需求。'}else if(score>=80){level='已達標';advice='複習錯題解析後即可進入 Part 2。'}else if(score>=60){level='概念有基礎，但選擇仍不穩';advice='重做五個實際案例與案件追蹤練習，再測一次。'}else{level='尚未吸收';advice='重讀五層心智模型與 Claude 經驗對照後重新測驗。'}document.getElementById('score').textContent=score+' / 100';document.getElementById('level').textContent=level;document.getElementById('advice').textContent=advice;document.getElementById('scorebox').classList.add('show');document.getElementById('scorebox').scrollIntoView({behavior:'smooth',block:'center'})}function resetExam(){document.getElementById('examForm').reset();document.querySelectorAll('.answer').forEach(a=>a.className='answer');document.getElementById('scorebox').classList.remove('show')}
+</script></body>
 </html>
