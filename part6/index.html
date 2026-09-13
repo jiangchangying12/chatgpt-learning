@@ -93,7 +93,7 @@ RETURNING id, status, version;
 <section><h2>官方技術參考</h2><ul><li><a href="https://learn.microsoft.com/en-us/aspnet/core/web-api/">Microsoft Learn：ASP.NET Core Web API</a></li><li><a href="https://learn.microsoft.com/en-us/ef/core/saving/concurrency">Microsoft Learn：EF Core concurrency</a></li><li><a href="https://www.postgresql.org/docs/current/ddl-constraints.html">PostgreSQL：Constraints</a></li><li><a href="https://www.postgresql.org/docs/current/transaction-iso.html">PostgreSQL：Transaction isolation</a></li></ul></section><section><h2>本章維護紀錄</h2>
 <table>
 <tr><th>項目</th><th>內容</th></tr>
-<tr><td>查核日期／依據</td><td>2026-09-13；依 <a href="../audit-2026-09/">現況查核報告</a> 的 F02、F03、F12 修訂。</td></tr>
+<tr><td>查核日期／依據</td><td>2026-09-13；依 2026-09 現況查核報告（內部紀錄，未發布於網站） 的 F02、F03、F12 修訂。</td></tr>
 <tr><td>主張與來源</td><td>並行控制：<a href="https://learn.microsoft.com/en-us/ef/core/saving/concurrency" target="_blank" rel="noopener">EF Core — Handling Concurrency Conflicts</a>；交易原子性：<a href="https://learn.microsoft.com/en-us/ef/core/saving/transactions" target="_blank" rel="noopener">EF Core — Using Transactions</a>；子集合唯一性：<a href="https://www.postgresql.org/docs/current/indexes-partial.html" target="_blank" rel="noopener">PostgreSQL — Partial Indexes</a>。</td></tr>
 <tr><td>已執行的步驟</td><td>已查閱官方文件並改寫正文；<strong>未</strong>在本 repo 建立可啟動專案，<strong>未</strong>執行任何資料庫或併發測試。</td></tr>
 <tr><td>待確認</td><td>尚不存在於本 repo 的 .NET／PostgreSQL 實驗專案（starter、migration、整合測試）。</td></tr>
