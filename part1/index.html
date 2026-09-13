@@ -32,6 +32,7 @@ h2{font-size:32px;margin:64px 0 18px} h3{font-size:22px;margin:28px 0 10px}
 .node.ai{border-color:#4f8c81;color:var(--accent)} .arrow{color:#7891b8;font-size:25px}
 .branch{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:14px;align-items:center}
 .stack{display:grid;gap:10px}.tool{padding:11px 14px;border-radius:12px;border:1px solid #35506b;background:#101a2e}
+.envtbl td:first-child,.envtbl th:first-child{white-space:nowrap}
 table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
 th,td{padding:16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top} th{background:#18243d;color:#dfe9fb} tr:last-child td{border-bottom:0}
 code,pre{font-family:"Cascadia Code",Consolas,monospace} pre{background:var(--code);border:1px solid #25324a;border-radius:16px;padding:20px;overflow:auto;white-space:pre-wrap;color:#dce8ff}
@@ -119,6 +120,22 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 <tr><td><strong>5. 行動／產出層</strong></td><td>我要的只是答案，還是「把工作做完」？</td><td>建立試算表、產生文件、執行多步驟工作流</td></tr>
 </tbody>
 </table>
+
+<h3>先辨識使用環境，再選能力</h3>
+<p>上面五層問的是「這個任務屬於哪一類」。動手前還要再問一次「我現在在哪個環境」。同一句 Prompt 在不同工作體驗與執行環境下，能拿到的檔案、工具與權限並不一樣；後面章節的「請你讀我的專案」能不能執行，取決於這一層。</p>
+<table class="envtbl">
+<thead><tr><th>層次</th><th>要問自己的問題</th><th>本教材的立場</th></tr></thead>
+<tbody>
+<tr><td><strong>工作體驗</strong></td><td>我正在 Chat、ChatGPT Work，還是 Codex？</td><td>官方把它們描述為不同用途：對話探索、委派可審查成果、開發與技術工作。這是用途定位，不是互不重疊的能力牆。</td></tr>
+<tr><td><strong>模型與推理</strong></td><td>這個帳戶提供哪些模型與推理選項？</td><td>從可用預設開始，用任務證據決定要不要提高推理。模型名稱與可用設定放在版本附錄，不寫進方法章。</td></tr>
+<tr><td><strong>工具與整合</strong></td><td>這一步需要搜尋、讀檔、Plugin 還是 Browser？</td><td>需要時才加入。「功能存在」與「這個帳戶已授權」是兩件事，要分開確認。</td></tr>
+<tr><td><strong>上下文</strong></td><td>資料在 Project、附件、repo 還是外部來源？</td><td>來源明確、版本可辨識、存取可確認。一般的 ChatGPT Project 集中的是聊天與上傳的檔案，不會自動讀到你電腦上的資料夾；要讓它讀本機資料夾，用的是另一種「local project」，而且必須明確把資料夾掛上去。先確認你現在用的是哪一種，再決定「請你讀我的專案」這句話成不成立。</td></tr>
+<tr><td><strong>執行環境</strong></td><td>在本機、worktree 還是雲端執行？</td><td>官方已區分 Local／Worktree／Cloud。相同 Prompt 不保證相同檔案與依賴可用。</td></tr>
+</tbody>
+</table>
+<div class="callout warn">
+<strong>可用性不是單一勾選框：</strong>每個操作步驟請先列出「確認日期／使用的客戶端（網頁、桌面、CLI）／帳戶看得到的入口／必要連接與授權／若沒有入口時的替代做法」。找不到入口時，先假設是方案或推出範圍差異，不要先懷疑自己操作錯誤；本教材也不用作者的環境替你承諾功能。
+</div>
 
 <div class="callout warn">
 <strong>常見誤區：</strong>把所有需求都寫成一個超長 Prompt。更好的方式通常是：先定義成果 → 給必要 Context → 選對工具／模式 → 讓 ChatGPT 做第一輪 → 再檢查與迭代。
@@ -223,8 +240,9 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 </section>
 
 <section id="quiz">
-<h2>07｜學習驗收：100 分互動測驗</h2>
+<h2>07｜辨識題自我檢測（100 分）</h2>
 <p>共 10 題，每題 10 分。先完成所有題目，再按「計分並顯示解析」。未選的題目視為答錯。</p>
+<div class="callout warn"><strong>這個分數代表什麼：</strong>選擇題量的是「你能不能辨識本章期待的答案」。它不足以單獨證明你能整理陌生資料、實際執行任務、找出錯誤或把方法遷移到沒看過的情境。要證明那些，請看下一節的實作與證據要求。</div>
 <form id="examForm" class="quiz">
 <div class="q" data-answer="b"><h3>Q1. 「請解釋什麼是資料庫正規化」通常先用哪種方式？</h3><label class="option"><input type="radio" name="q1" value="a">Deep Research</label><label class="option"><input type="radio" name="q1" value="b">一般對話</label><label class="option"><input type="radio" name="q1" value="c">外部 App</label><div class="answer"><strong>答案 B。</strong>這是穩定的基礎知識，一般對話通常足夠；若要求最新產品實作或來源佐證，再加入搜尋。</div></div>
 <div class="q" data-answer="c"><h3>Q2. 「目前 .NET 最新 LTS 版本」應如何處理？</h3><label class="option"><input type="radio" name="q2" value="a">只靠模型記憶</label><label class="option"><input type="radio" name="q2" value="b">提高 Thinking 即可</label><label class="option"><input type="radio" name="q2" value="c">搜尋並以官方來源確認</label><div class="answer"><strong>答案 C。</strong>「目前、最新」代表資訊可能改變，必須查證；Thinking 不會自動更新事實。</div></div>
@@ -239,13 +257,23 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 <button type="button" onclick="grade()">計分並顯示解析</button><button type="button" class="secondary" onclick="resetExam()">重新作答</button>
 <div id="scorebox" class="scorebox" aria-live="polite"><div id="score" class="score"></div><h3 id="level"></h3><p id="advice"></p></div>
 </form>
-<h3>評分標準</h3>
-<table><thead><tr><th>分數</th><th>吸收程度</th><th>下一步</th></tr></thead><tbody>
-<tr><td>90–100</td><td>能獨立判斷</td><td>進入 Part 2，並把四個判斷用在真實需求。</td></tr>
-<tr><td>80–89</td><td>已達標</td><td>複習錯題解析後進入 Part 2。</td></tr>
-<tr><td>60–79</td><td>概念有基礎，但選擇仍不穩</td><td>重做五個實際案例與案件追蹤練習。</td></tr>
-<tr><td>0–59</td><td>尚未吸收</td><td>重讀五層心智模型與 Claude 經驗對照。</td></tr>
+<h3>分數怎麼讀</h3>
+<table><thead><tr><th>分數</th><th>辨識題表現</th><th>下一步</th></tr></thead><tbody>
+<tr><td>90–100</td><td>選項辨識穩定</td><td>進入 Part 2；同時完成下面的實作證據，才算真的會用。</td></tr>
+<tr><td>80–89</td><td>辨識大致正確</td><td>複習錯題解析後進入 Part 2。</td></tr>
+<tr><td>60–79</td><td>辨識仍不穩</td><td>重做五個實際案例與案件追蹤練習。</td></tr>
+<tr><td>0–59</td><td>概念尚未成形</td><td>重讀五層心智模型與使用環境辨識。</td></tr>
 </tbody></table>
+<h3>滿分之外，還要交這些證據</h3>
+<p class="small">以下是本課程的教學評量設計，不是經過測量研究校準的認證標準。</p>
+<table><thead><tr><th>能力</th><th>你要交出什麼</th></tr></thead><tbody>
+<tr><td>概念解釋</td><td>不用選項，用自己的話解釋兩個容易混淆的概念，並各給一個反例。</td></tr>
+<tr><td>證據查核</td><td>指出資料版本、哪句話被哪個來源支持、哪個來源其實不適用、哪些仍然未知。</td></tr>
+<tr><td>完成實際成果</td><td>一份可開啟或可執行的成品，附驗收結果與已知限制。</td></tr>
+<tr><td>陌生情境遷移</td><td>換一個沒看過示範的業務情境，重新建立工作流程與驗收條件。</td></tr>
+<tr><td>失敗診斷與修正</td><td>找出一個真實錯誤，說明原因，並交出修正後的證據。</td></tr>
+</tbody></table>
+<div class="callout warn"><strong>兩個成績分開看：</strong>建議把「辨識題成績」與「實作驗收結果」並列，不要合成一個看起來精準、卻解釋不了的熟練度數字。沒有執行過的驗證，必須維持「未執行」，不能寫成已通過。</div>
 </section>
 
 <section>
@@ -263,13 +291,22 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 
 <section>
 <h2>延伸來源</h2>
-<p class="small">以下為教材中涉及目前 ChatGPT 產品能力的官方參考。產品介面與方案可能持續變動。</p>
+<p class="small">以下是本章涉及 ChatGPT 產品能力時所依據的官方頁面，並標示它支持本章哪一段說法。這些都是會持續更新的動態文件，查閱日期不等於發布日期；產品介面、方案與推出範圍仍以你當下看到的介面為準。查閱日期：2026-09-13。</p>
 <ul>
-<li>OpenAI Academy — Research with ChatGPT（Search 與 Deep Research）</li>
-<li>OpenAI Help Center — Deep research in ChatGPT</li>
-<li>OpenAI Help Center — Plugins in ChatGPT and Codex</li>
-<li>OpenAI Help Center — Apps in ChatGPT</li>
+<li><a href="https://learn.chatgpt.com/docs/use-chatgpt" target="_blank" rel="noopener">OpenAI Docs — Use ChatGPT</a>：支持「工作體驗」一列，Chat／Work／Codex 是用途定位而非能力牆。</li>
+<li><a href="https://learn.chatgpt.com/docs/models" target="_blank" rel="noopener">OpenAI Docs — Models</a>：支持「模型與推理」一列，選項受帳戶、客戶端與推出範圍影響，建議從可用預設開始。</li>
+<li><a href="https://learn.chatgpt.com/docs/projects" target="_blank" rel="noopener">OpenAI Docs — Projects and chats</a>：支持「Project 不等於你的電腦資料夾」這句話。</li>
+<li><a href="https://learn.chatgpt.com/docs/web-search" target="_blank" rel="noopener">OpenAI Docs — Web search</a>：支持案例 C、Q2 中「現況事實要查證」的做法。</li>
+<li><a href="https://learn.chatgpt.com/docs/plugins" target="_blank" rel="noopener">OpenAI Docs — Plugins</a>：支持「工具與整合」一列；Plugin 現行概念可包含 skills 與 MCP servers，不只是外部帳戶連接。</li>
+<li><a href="https://learn.chatgpt.com/docs/environments/modes" target="_blank" rel="noopener">OpenAI Docs — Codex environments（Local／Worktree／Cloud）</a>：支持「執行環境」一列的 Local／Worktree／Cloud 區分。</li>
 </ul>
+<h3>本章維護紀錄</h3>
+<table><thead><tr><th>項目</th><th>內容</th></tr></thead><tbody>
+<tr><td>查核日期／依據</td><td>2026-09-13；依 <a href="../audit-2026-09/">現況查核報告</a> 的 F03、F05、F09 修訂。</td></tr>
+<tr><td>適用介面</td><td>本章為方法章，不綁特定客戶端；涉及入口時請依實際介面確認。</td></tr>
+<tr><td>已執行的步驟</td><td>已查閱官方文件並改寫正文；未對特定帳戶逐項操作測試。</td></tr>
+<tr><td>待確認</td><td>各方案實際可見的模型選項、Codex 環境入口。</td></tr>
+</tbody></table>
 </section>
 
 <footer class="footer">
@@ -278,6 +315,6 @@ summary{cursor:pointer;font-weight:700;color:#e9f1ff}
 </footer>
 </div>
 <script>
-function grade(){let score=0;document.querySelectorAll('.q').forEach(q=>{const pick=q.querySelector('input:checked'),ok=pick&&pick.value===q.dataset.answer;if(ok)score+=10;const a=q.querySelector('.answer');a.classList.add('show');a.classList.toggle('correct',!!ok);a.classList.toggle('incorrect',!ok)});let level,advice;if(score>=90){level='能獨立判斷';advice='你已掌握 Part 1，可進入 Part 2，並把四個判斷用在真實需求。'}else if(score>=80){level='已達標';advice='複習錯題解析後即可進入 Part 2。'}else if(score>=60){level='概念有基礎，但選擇仍不穩';advice='重做五個實際案例與案件追蹤練習，再測一次。'}else{level='尚未吸收';advice='重讀五層心智模型與 Claude 經驗對照後重新測驗。'}document.getElementById('score').textContent=score+' / 100';document.getElementById('level').textContent=level;document.getElementById('advice').textContent=advice;document.getElementById('scorebox').classList.add('show');document.getElementById('scorebox').scrollIntoView({behavior:'smooth',block:'center'})}function resetExam(){document.getElementById('examForm').reset();document.querySelectorAll('.answer').forEach(a=>a.className='answer');document.getElementById('scorebox').classList.remove('show')}
+function grade(){let score=0;document.querySelectorAll('.q').forEach(q=>{const pick=q.querySelector('input:checked'),ok=pick&&pick.value===q.dataset.answer;if(ok)score+=10;const a=q.querySelector('.answer');a.classList.add('show');a.classList.toggle('correct',!!ok);a.classList.toggle('incorrect',!ok)});let level,advice;if(score>=90){level='辨識題表現：穩定';advice='辨識題到這裡沒問題了。接著完成本節「滿分之外」的實作與證據，才能說自己會用。'}else if(score>=80){level='辨識題表現：大致正確';advice='複習錯題解析後進入 Part 2，並補上實作證據。'}else if(score>=60){level='辨識題表現：仍不穩';advice='重做五個實際案例與案件追蹤練習，再測一次。'}else{level='辨識題表現：概念尚未成形';advice='重讀五層心智模型與「先辨識使用環境」後重新測驗。'}document.getElementById('score').textContent=score+' / 100';document.getElementById('level').textContent=level;document.getElementById('advice').textContent=advice;document.getElementById('scorebox').classList.add('show');document.getElementById('scorebox').scrollIntoView({behavior:'smooth',block:'center'})}function resetExam(){document.getElementById('examForm').reset();document.querySelectorAll('.answer').forEach(a=>a.className='answer');document.getElementById('scorebox').classList.remove('show')}
 </script></body>
 </html>

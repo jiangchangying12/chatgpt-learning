@@ -7,6 +7,8 @@
 <section id="model"><h2>01｜核心不是工具，而是證據鏈</h2><div class="flow"><div class="node">研究問題</div><div class="arrow">→</div><div class="node">來源策略</div><div class="arrow">→</div><div class="node">取得資料</div><div class="arrow">→</div><div class="node">交叉驗證</div><div class="arrow">→</div><div class="node">結論與限制</div></div><div class="grid3"><div class="card"><div class="label">SEARCH</div><h3>快速查找與核實</h3><p>適合現況、版本、公告、單一或少量明確事實。重點是快速找到權威原始來源。</p></div><div class="card"><div class="label">DEEP RESEARCH</div><h3>多來源整合</h3><p>適合需要拆解問題、蒐集多方資料、比較矛盾證據、產生完整且可追溯報告。</p></div><div class="card"><div class="label">FILES</div><h3>你的專屬證據</h3><p>適合需求書、會議紀錄、Excel、程式碼與內部報告。外部搜尋無法取代你的內部事實。</p></div></div><div class="callout warn"><strong>不是三選一：</strong>「最新 .NET 升級對內部系統的影響」通常需要 Search 取得官方現況、Files 讀取內部依賴，再用推理建立影響映射；若範圍廣、來源多，才升級成 Deep Research。</div></section>
 
 <section id="choose"><h2>02｜先用四個問題選擇工作方式</h2><table><thead><tr><th>判斷問題</th><th>偏向方式</th><th>陷阱</th></tr></thead><tbody><tr><td>答案會隨時間改變嗎？</td><td>Search</td><td>「最新」只是訊號，仍要限定來源與日期。</td></tr><tr><td>是否需要多來源完整研究？</td><td>Deep Research</td><td>不是每個搜尋都值得啟動完整研究。</td></tr><tr><td>主要證據是否在我的資料裡？</td><td>Files</td><td>先說明各檔案版本、用途與優先順序。</td></tr><tr><td>是否同時有內部與外部證據？</td><td>組合工作流</td><td>清楚標註哪個結論來自哪一類來源。</td></tr></tbody></table>
+<div class="callout warn"><strong>「操作課」與「API 指南」不要混著讀：</strong>本章教的是在 ChatGPT 介面裡怎麼做研究，請以官方 Web search 文件中的 Deep research 說明為準（查核時它以 Work 模式的 Deep Research plugin 形式提供）。開發者文件中的 Deep research 是給程式呼叫用的，兩者的模型、參數與可用性都不保證一致——不要從 API 文件裡的模型名稱，推定聊天介面底下跑的是同一個模型。想接程式，再把 API 指南當延伸閱讀。</div>
+<div class="callout warn"><strong>找不到入口時怎麼辦：</strong>Deep research 的入口與額度受方案、客戶端與推出範圍影響。若你的介面沒有這個選項，改用「限定來源清單 + 分批搜尋 + 自己整合」完成同一份作業，並在報告中註明使用的是替代做法。本章不宣稱兩條路徑完全等價。</div>
 <h3>可直接使用的來源策略 Prompt</h3><pre>在開始研究前，先不要回答結論。
 請先提出來源策略：
 1. 哪些問題可用穩定知識回答？
@@ -32,33 +34,55 @@
 若官方資料與內部文件衝突，不要靜默合併；
 建立「衝突—可能原因—影響—確認責任」表。</pre></div><div class="callout good"><strong>完成證據：</strong>拿掉結論文字後，第三人仍能從來源與推導欄位重建你的判斷；這才叫可追溯。</div></section>
 
-<section id="exam"><h2>06｜20 題觀念陷阱測驗</h2><p>每題 5 分；總分至少 85，且四個能力軸均達 70% 才通過。</p><form id="examForm" class="quiz"><div id="questions"></div><button type="button" onclick="grade()">計分並分析弱項</button><button type="button" class="secondary" onclick="resetExam()">重新作答</button><div id="result" class="result"><div id="score" class="score"></div><h3 id="level"></h3><p id="advice"></p><div id="axes" class="axes"></div></div></form></section>
+<section id="exam"><h2>06｜20 題觀念陷阱測驗</h2><p>每題 5 分；總分至少 85，且四個能力軸均達 70% 才通過。</p>
+<div class="callout warn"><strong>這個分數代表什麼：</strong>這是辨識題成績，代表你能選出本章期待的答案，不等於你已能在陌生題材上獨立完成研究。要證明後者，請交出 §05 升級影響研究的成品：可點開的來源、發布與查閱日期、適用版本、受影響功能與最小驗證清單。</div><form id="examForm" class="quiz"><div id="questions"></div><button type="button" onclick="grade()">計分並分析弱項</button><button type="button" class="secondary" onclick="resetExam()">重新作答</button><div id="result" class="result"><div id="score" class="score"></div><h3 id="level"></h3><p id="advice"></p><div id="axes" class="axes"></div></div></form></section>
 
-<section><h2>官方參考</h2><ul><li><a href="https://learn.chatgpt.com/docs/web-search" target="_blank">OpenAI Docs：Web search</a></li><li><a href="https://learn.chatgpt.com/docs/artifacts-viewer" target="_blank">OpenAI Docs：Work with files</a></li><li><a href="https://developers.openai.com/api/docs/guides/deep-research" target="_blank">OpenAI Developers：Deep research</a></li><li><a href="https://learn.chatgpt.com/" target="_blank">ChatGPT Learn：ChatGPT Work 與研究、檔案工作流</a></li></ul><p class="small">教材教授的是穩定的判斷方法；功能名稱、介面與可用性可能隨方案及版本變動。</p></section>
+<section><h2>官方參考</h2>
+<p class="small">查閱日期：2026-09-13。以下皆為會持續更新的動態文件，查閱日期不等於發布日期。</p>
+<h3>操作課依據（ChatGPT 介面）</h3>
+<ul>
+<li><a href="https://learn.chatgpt.com/docs/web-search" target="_blank" rel="noopener">OpenAI Docs：Web search</a>：支持 §01「快速查找與核實」與 §02 的 Search 判斷。</li>
+<li><a href="https://learn.chatgpt.com/docs/web-search" target="_blank" rel="noopener">OpenAI Docs：Web search（Deep research 段落）</a>：支持本章 Deep research 的介面說明——它以 Work 模式的 Deep Research plugin 形式提供，產出可審查的多來源報告。</li>
+<li><a href="https://learn.chatgpt.com/docs/get-started-with-work" target="_blank" rel="noopener">OpenAI Docs：Get started with ChatGPT Work</a>：支持「委派可審查成果」的定位；本頁未涵蓋 Deep research 細節。</li>
+<li><a href="https://learn.chatgpt.com/docs/artifacts-viewer" target="_blank" rel="noopener">OpenAI Docs：Work with files</a>：支持 §01「你的專屬證據」與檔案品質檢查。</li>
+</ul>
+<h3>開發延伸（不是操作課依據）</h3>
+<ul>
+<li><a href="https://developers.openai.com/api/docs/guides/deep-research" target="_blank" rel="noopener">OpenAI Developers：Deep research（API）</a>：只在你要用程式呼叫時參考。不可用它背書聊天介面的行為或底層模型。</li>
+</ul>
+<h3>本章維護紀錄</h3>
+<table><thead><tr><th>項目</th><th>內容</th></tr></thead><tbody>
+<tr><td>查核日期／依據</td><td>2026-09-13；依 <a href="../audit-2026-09/">現況查核報告</a> 的 F03、F08 修訂。</td></tr>
+<tr><td>適用介面</td><td>操作說明以 ChatGPT 網頁介面為準；Deep research 入口與額度依方案與推出範圍而異。</td></tr>
+<tr><td>已執行的步驟</td><td>已查閱官方文件並改寫正文；未在特定帳戶逐項操作驗證入口。</td></tr>
+<tr><td>替代路徑</td><td>沒有 Deep research 入口時，用限定來源清單 + 分批搜尋 + 自行整合完成實作。</td></tr>
+<tr><td>待確認</td><td>各方案的 Deep research 可用性與研究覆蓋範圍上限。</td></tr>
+</tbody></table>
+<p class="small">教材教授的是穩定的判斷方法；功能名稱、介面與可用性可能隨方案及版本變動。</p></section>
 <footer class="footer"><strong>Claude → ChatGPT 快速轉換課程｜Part 3</strong><br>下一章：Part 4「文件、試算表、簡報與圖片：把分析變成可交付成果」。</footer></main>
 <script>
 const Q=[
-{a:"choice",q:"查『目前 PostgreSQL 最新穩定版』的最佳第一步？",o:["提高 Thinking","查 PostgreSQL 官方版本資訊","啟動完整 Deep Research"],c:1,e:"這是明確、可快速核實的現況事實，官方 Search 足夠。"},
-{a:"choice",q:"分析內部需求書中的矛盾，但不需外部標準，首選？",o:["Files + reasoning","Search","Deep Research"],c:0,e:"主要證據在內部檔案；外部搜尋不是必要前置。"},
+{a:"choice",q:"查『目前 PostgreSQL 最新穩定版』的最佳第一步？",o:["查 PostgreSQL 官方版本資訊","提高 Thinking","啟動完整 Deep Research"],c:0,e:"這是明確、可快速核實的現況事實，官方 Search 足夠。"},
+{a:"choice",q:"分析內部需求書中的矛盾，但不需外部標準，首選？",o:["Search","Files + reasoning","Deep Research"],c:1,e:"主要證據在內部檔案；外部搜尋不是必要前置。"},
 {a:"source",q:"搜尋排名第一的部落格與官方 release notes 衝突，應？",o:["採排名第一","採較易懂的","回到官方原始來源並說明衝突"],c:2,e:"搜尋排名不是證據權威性。"},
-{a:"trace",q:"報告有 30 個引用，是否代表可信？",o:["是，數量夠多","不一定，要檢查每個引用是否直接支持結論","只要網址可開即可"],c:1,e:"引用數量、可開啟與結論支持度是不同問題。"},
-{a:"files",q:"PDF 是掃描影像且 OCR 錯誤很多，應？",o:["照常摘要","提高 Thinking","先確認文字擷取品質，重要處回看原頁"],c:2,e:"輸入品質問題不能靠推理修復。"},
-{a:"choice",q:"研究三種 HA 方案、需多來源與完整選型報告，首選？",o:["Deep Research","一般聊天","只用 Files"],c:0,e:"問題廣、多來源、需整合與追溯，適合深入研究。"},
-{a:"source",q:"最新法規查證最適合優先使用？",o:["論壇討論","官方法規與主管機關來源","模型既有記憶"],c:1,e:"高風險現行規定應使用權威原始來源。"},
+{a:"trace",q:"報告有 30 個引用，是否代表可信？",o:["不一定，要檢查每個引用是否直接支持結論","是，數量夠多","只要網址可開即可"],c:0,e:"引用數量、可開啟與結論支持度是不同問題。"},
+{a:"files",q:"PDF 是掃描影像且 OCR 錯誤很多，應？",o:["照常摘要","先確認文字擷取品質，重要處回看原頁","提高 Thinking"],c:1,e:"輸入品質問題不能靠推理修復。"},
+{a:"choice",q:"研究三種 HA 方案、需多來源與完整選型報告，首選？",o:["一般聊天","只用 Files","Deep Research"],c:2,e:"問題廣、多來源、需整合與追溯，適合深入研究。"},
+{a:"source",q:"最新法規查證最適合優先使用？",o:["官方法規與主管機關來源","論壇討論","模型既有記憶"],c:0,e:"高風險現行規定應使用權威原始來源。"},
 {a:"trace",q:"一句結論包含版本、效能與安全三個主張，但引用只支持版本，應？",o:["引用仍算有效","拆分主張，分別提供證據或標示未證實","增加語氣確定性"],c:1,e:"引用應與它實際支持的主張貼近且範圍一致。"},
-{a:"files",q:"v3 規格與會議記錄衝突，會議記錄日期較新，應？",o:["自動採較新者","列衝突並依核准規則請權責人確認","取兩者平均"],c:1,e:"日期不能取代文件治理與核准權限。"},
+{a:"files",q:"v3 規格與會議記錄衝突，會議記錄日期較新，應？",o:["自動採較新者","取兩者平均","列衝突並依核准規則請權責人確認"],c:2,e:"日期不能取代文件治理與核准權限。"},
 {a:"choice",q:"查單一官方公告的發布日期，最合理？",o:["Search","Deep Research","上傳空白文件"],c:0,e:"窄而明確的最新事實不需完整研究。"},
 {a:"source",q:"兩個次級來源引用同一篇原始報告，這算幾個獨立證據？",o:["兩個","通常仍是一個共同原始證據","至少三個"],c:1,e:"來源數量不等於證據獨立性，要追到共同根源。"},
-{a:"trace",q:"哪種標註最有利於可追溯？",o:["重要／不重要","事實／推論／假設／建議","正確／錯誤"],c:1,e:"這能區分證據、推導與決策性內容。"},
-{a:"files",q:"內部 Excel 的欄位定義不完整，最不應該？",o:["列出缺漏","用合理值補齊但不標示","向資料擁有者確認"],c:1,e:"靜默補值會把假設偽裝成內部事實。"},
-{a:"choice",q:"『最新外部規範對內部系統的影響』通常需要？",o:["只 Search","只 Files","Search + Files + reasoning"],c:2,e:"現況、內部事實與影響推導缺一不可。"},
-{a:"source",q:"來源很舊但內容可能仍有效，應？",o:["一律丟棄","確認是否有新版、廢止或適用範圍","因為官方所以永久有效"],c:1,e:"權威來源也有版本與時效。"},
-{a:"trace",q:"研究證據不足時，最好的結論？",o:["填入最可能答案","標示未知、缺少資料與下一步","刪除該議題"],c:1,e:"誠實表達不確定性是研究品質的一部分。"},
+{a:"trace",q:"哪種標註最有利於可追溯？",o:["重要／不重要","正確／錯誤","事實／推論／假設／建議"],c:2,e:"這能區分證據、推導與決策性內容。"},
+{a:"files",q:"內部 Excel 的欄位定義不完整，最不應該？",o:["用合理值補齊但不標示","列出缺漏","向資料擁有者確認"],c:0,e:"靜默補值會把假設偽裝成內部事實。"},
+{a:"choice",q:"『最新外部規範對內部系統的影響』通常需要？",o:["只 Search","Search + Files + reasoning","只 Files"],c:1,e:"現況、內部事實與影響推導缺一不可。"},
+{a:"source",q:"來源很舊但內容可能仍有效，應？",o:["一律丟棄","因為官方所以永久有效","確認是否有新版、廢止或適用範圍"],c:2,e:"權威來源也有版本與時效。"},
+{a:"trace",q:"研究證據不足時，最好的結論？",o:["標示未知、缺少資料與下一步","填入最可能答案","刪除該議題"],c:0,e:"誠實表達不確定性是研究品質的一部分。"},
 {a:"files",q:"要驗證 PDF 中特定驗收條件，最佳做法？",o:["只讀摘要","要求位置引用並人工抽查原頁","相信模型記得全文"],c:1,e:"重要細節應回到原始檔案位置核對。"},
 {a:"source",q:"供應商文件宣稱自家方案效能最佳，應？",o:["直接當結論","忽略全部內容","視為有利益關係來源，尋找方法與獨立證據"],c:2,e:"不是必然錯，但需揭露利益與交叉驗證。"},
-{a:"trace",q:"結論來自內部檔案和外部來源的共同推導，應？",o:["只引外部資料","分別標示兩類證據及推論過程","不需引用"],c:1,e:"讀者應能看出哪部分来自內部事實、外部事實及你的推導。"},
+{a:"trace",q:"結論來自內部檔案和外部來源的共同推導，應？",o:["分別標示兩類證據及推論過程","只引外部資料","不需引用"],c:0,e:"讀者應能看出哪部分来自內部事實、外部事實及你的推導。"},
 {a:"files",q:"分析含敏感個資的檔案前，第一個治理問題是？",o:["是否能產生漂亮圖表","是否有必要、授權及合適的資料處理邊界","是否使用最高 Thinking"],c:1,e:"資料最小化、權限與處理規則先於分析便利性。"}];
 const names={choice:"工具選擇",source:"來源品質",trace:"可追溯性",files:"Files／治理"};
 function render(){questions.innerHTML=Q.map((x,i)=>'<div class="q" data-i="'+i+'"><div class="meta">'+names[x.a]+' · 情境 '+(i+1)+'</div><h3>Q'+(i+1)+'. '+x.q+'</h3>'+x.o.map((o,j)=>'<label class="option"><input type="radio" name="q'+i+'" value="'+j+'">'+o+'</label>').join("")+'<div class="answer"><strong>最佳答案：'+String.fromCharCode(65+x.c)+'</strong><br>'+x.e+'</div></div>').join("")}
-function grade(){let n=0,ax={choice:[0,0],source:[0,0],trace:[0,0],files:[0,0]};Q.forEach((x,i)=>{ax[x.a][1]++;const q=document.querySelector('[data-i="'+i+'"]'),p=q.querySelector("input:checked"),ok=p&&+p.value===x.c;if(ok){n++;ax[x.a][0]++}const a=q.querySelector(".answer");a.classList.add("show");a.classList.toggle("correct",!!ok);a.classList.toggle("incorrect",!ok)});const s=n*5,m=Math.min(...Object.values(ax).map(v=>v[0]/v[1]*100));let l,d;if(s>=85&&m>=70){l="Part 3 判斷達標";d="完成升級影響研究實作後，即可進入 Part 4。"}else if(s>=85){l="總分達標，但有能力偏科";d="先補強低於 70% 的能力軸。"}else if(s>=70){l="基礎穩定，證據判斷仍需練習";d="重做錯題並逐項檢查引用是否直接支持結論。"}else{l="尚未建立可靠證據工作流";d="重讀證據模型、來源品質與六個案例。"}score.textContent=s+" / 100";level.textContent=l;advice.textContent=d;axes.innerHTML=Object.entries(ax).map(([k,v])=>{const p=Math.round(v[0]/v[1]*100);return '<div class="axis"><strong>'+names[k]+'</strong><span style="float:right">'+p+'%</span><div class="bar"><div class="fill" style="width:'+p+'%"></div></div><div class="small">'+v[0]+' / '+v[1]+' 題</div></div>'}).join("");result.classList.add("show");result.scrollIntoView({behavior:"smooth",block:"center"})}function resetExam(){examForm.reset();document.querySelectorAll(".answer").forEach(a=>a.className="answer");result.classList.remove("show")}render();
+function grade(){let n=0,ax={choice:[0,0],source:[0,0],trace:[0,0],files:[0,0]};Q.forEach((x,i)=>{ax[x.a][1]++;const q=document.querySelector('[data-i="'+i+'"]'),p=q.querySelector("input:checked"),ok=p&&+p.value===x.c;if(ok){n++;ax[x.a][0]++}const a=q.querySelector(".answer");a.classList.add("show");a.classList.toggle("correct",!!ok);a.classList.toggle("incorrect",!ok)});const s=n*5,m=Math.min(...Object.values(ax).map(v=>v[0]/v[1]*100));let l,d;if(s>=85&&m>=70){l="辨識題判斷達標";d="完成升級影響研究實作後，才算真的通過 Part 3。"}else if(s>=85){l="總分達標，但有能力偏科";d="先補強低於 70% 的能力軸。"}else if(s>=70){l="基礎穩定，證據判斷仍需練習";d="重做錯題並逐項檢查引用是否直接支持結論。"}else{l="尚未建立可靠證據工作流";d="重讀證據模型、來源品質與六個案例。"}score.textContent=s+" / 100";level.textContent=l;advice.textContent=d;axes.innerHTML=Object.entries(ax).map(([k,v])=>{const p=Math.round(v[0]/v[1]*100);return '<div class="axis"><strong>'+names[k]+'</strong><span style="float:right">'+p+'%</span><div class="bar"><div class="fill" style="width:'+p+'%"></div></div><div class="small">'+v[0]+' / '+v[1]+' 題</div></div>'}).join("");result.classList.add("show");result.scrollIntoView({behavior:"smooth",block:"center"})}function resetExam(){examForm.reset();document.querySelectorAll(".answer").forEach(a=>a.className="answer");result.classList.remove("show")}render();
 </script></body></html>

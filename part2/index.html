@@ -10,7 +10,7 @@
 
 <section id="model"><h2>01｜先建立一個正確模型</h2><div class="flow"><div class="node">明確成果</div><div class="arrow">→</div><div class="node">必要 Context</div><div class="arrow">→</div><div class="node">合理 Thinking</div><div class="arrow">→</div><div class="node">驗證標準</div><div class="arrow">→</div><div class="node">迭代</div></div><div class="callout good"><strong>一句話：</strong>好的 Prompt 不是寫得長，而是讓模型知道「要完成什麼、根據什麼、受哪些限制、怎樣算完成」。</div><div class="grid3"><div class="card"><div class="label">Prompt</div><h3>這一輪要做什麼</h3><p>任務、成果格式、限制、優先順序。</p></div><div class="card"><div class="label">Context</div><h3>判斷所需的資料</h3><p>背景、文件、程式碼、決策、使用者與環境。</p></div><div class="card"><div class="label">Thinking</div><h3>需要多少推理</h3><p>簡單改寫不需重推理；架構取捨、除錯與規劃通常需要。</p></div></div></section>
 
-<section id="prompt"><h2>02｜Prompt：先定義成果，不要堆角色咒語</h2><p>你不需要每次都寫「你是一位世界頂尖專家」。比角色更重要的是可操作的工作契約。</p><table><thead><tr><th>元素</th><th>要回答的問題</th><th>範例</th></tr></thead><tbody><tr><td><strong>目標</strong></td><td>最後要得到什麼？</td><td>產生 API 設計草案，而不是泛談 REST。</td></tr><tr><td><strong>背景</strong></td><td>為什麼做、誰會使用？</td><td>政府案件追蹤，承辦人與主管使用。</td></tr><tr><td><strong>輸入</strong></td><td>以哪些資料為準？</td><td>需求條列、既有 schema、附件規格。</td></tr><tr><td><strong>限制</strong></td><td>哪些不可違反？</td><td>ASP.NET Core、PostgreSQL、不可儲存明文個資。</td></tr><tr><td><strong>輸出</strong></td><td>格式與細節層級？</td><td>表格：method、path、權限、驗收條件。</td></tr><tr><td><strong>驗證</strong></td><td>怎樣算完成？</td><td>每個需求至少對應一個 endpoint 與測試條件。</td></tr></tbody></table>
+<section id="prompt"><h2>02｜Prompt：先定義成果，不要堆角色咒語</h2><p>你不需要每次都寫「你是一位世界頂尖專家」。比角色更重要的是可操作的工作契約。</p><table><thead><tr><th>元素</th><th>要回答的問題</th><th>範例</th></tr></thead><tbody><tr><td><strong>目標</strong></td><td>最後要得到什麼？</td><td>產生 API 設計草案，而不是泛談 REST。</td></tr><tr><td><strong>背景</strong></td><td>為什麼做、誰會使用？</td><td>政府案件追蹤，承辦人與主管使用。</td></tr><tr><td><strong>輸入</strong></td><td>以哪些資料為準？</td><td>需求條列、既有 schema、附件規格。</td></tr><tr><td><strong>限制</strong></td><td>哪些不可違反？</td><td>ASP.NET Core、PostgreSQL、不可儲存明文個資。</td></tr><tr><td><strong>輸出</strong></td><td>格式與細節層級？</td><td>表格：method、path、權限、驗收條件。</td></tr><tr><td><strong>驗證</strong></td><td>怎樣算完成？</td><td>每條需求都能對應到設計決定與驗收證據。</td></tr></tbody></table>
 <div class="compare"><div class="card wrong"><div class="label">模糊</div><pre>幫我設計一個案件系統的 API，
 要專業、完整、符合最佳實務。</pre><p>「專業、完整、最佳」不可驗證；模型必須自行補大量假設。</p></div><div class="card right"><div class="label">可執行</div><pre>為案件追蹤系統提出 API 草案。
 技術：ASP.NET Core + PostgreSQL。
@@ -18,6 +18,7 @@
 先列出仍缺少的 5 個關鍵需求，不寫程式。
 確認後輸出 endpoint 表格，包含：
 method、path、角色、輸入、成功條件、主要錯誤。</pre><p>有階段、有輸出結構，也避免太早寫程式。</p></div></div>
+<div class="callout warn"><strong>不要把「需求對應」誤寫成「需求對應 endpoint」：</strong>效能、可用性、備份、保存期限這類非功能需求，不必各自生出一支 API。需求追蹤要問的是「這條需求由哪個設計決定承擔、用哪個證據驗收」，答案可能是一份設定、一次演練紀錄或一組監控門檻。逼每條需求都長出 endpoint，只會製造假的完整性。</div>
 <div class="callout warn"><strong>Claude 使用經驗的轉換：</strong>你原本會寫的清楚指令仍然有效。差異不在於換一套神奇語法，而在於善用 ChatGPT 的檔案、搜尋、研究與成品工具，讓 Prompt 指向正確工作方式。</div></section>
 
 <section id="context"><h2>03｜Context：不是越多越好，而是可辨識、可取捨</h2><p>Context 是 ChatGPT 做判斷時能看到的資訊。大量貼入內容不等於有效上下文；過時、矛盾或沒有優先順序的內容，反而會降低品質。</p><div class="grid"><div class="card"><h3>應該提供</h3><ul><li>任務直接依賴的需求與資料</li><li>已做出的決策及原因</li><li>不可更動的技術與法規限制</li><li>目標讀者、系統環境、完成標準</li><li>關鍵檔案，並說明每份用途</li></ul></div><div class="card"><h3>應該整理或移除</h3><ul><li>與本輪無關的完整聊天歷史</li><li>沒有標註版本的舊規格</li><li>互相衝突卻未說明優先級的指令</li><li>不得採用卻未標示的範例</li><li>密碼、Token、個資等不必要敏感資料</li></ul></div></div><h3>遇到衝突 Context 時，定義優先順序</h3><pre>本次判斷優先順序：
@@ -49,9 +50,33 @@ method、path、角色、輸入、成功條件、主要錯誤。</pre><p>有階�
 先不產生完整實作碼。</pre><h3>C｜要求反查</h3><pre>以 hostile reviewer 角度檢查草案：
 找出越權、跳過合法狀態、重複送出、並行更新、
 稽核紀錄遭竄改與時區處理可能出錯的地方。
-用「風險—觸發方式—預期防護—驗證方法」表格回答。</pre><p><strong>完成證據：</strong>你能指出三輪各自的目的，並說明為什麼第一輪不該直接要求 controller code。</p></div></section>
+用「風險—觸發方式—預期防護—驗證方法」表格回答。</pre><p><strong>完成證據：</strong>你能指出三輪各自的目的，並說明為什麼第一輪不該直接要求 controller code。</p></div>
 
-<section id="exam"><h2>07｜學習驗收：100 分互動測驗</h2><p>共 10 題，每題 10 分。先作答，再按「計分並顯示解析」。未選視為答錯。</p><form id="examForm" class="quiz">
+<h3>分幕是教學順序，不是執行時一定要停五次</h3>
+<p>上面把流程拆成五輪，是為了讓你看清楚每一步在檢查什麼。實際執行時，停不停下來應該由「還有多少未知」與「這個動作的風險」決定，而不是由固定回合數決定。目標、輸入與授權都清楚的低影響修改，可以讓它一路做到可審查的結果；會改變業務規則的歧義，就一定要先停。</p>
+<table>
+<thead><tr><th>情境</th><th>適合的控制方式</th><th>應該停下來的原因</th></tr></thead>
+<tbody>
+<tr><td>「把申請流程改合理一點」</td><td>先閱讀、列出矛盾、提出可比較的方案。</td><td>還不知道誰有核准權，也不知道取消是否釋放資源。</td></tr>
+<tr><td>「依已核准規格修好『取消後資源未釋放』，附測試與 diff」</td><td>讀取相關檔案，重現、修正、驗證，交付審查。</td><td>遇到會改變業務規則的歧義，或需要超出範圍的資料變更。</td></tr>
+<tr><td>「把已檢查過的靜態教材發布到指定 Pages repo」</td><td>在現有授權內準備檔案、檢查、提交並確認發布狀態。</td><td>換新站台、需要額外帳戶授權，或內容無法確認是否可公開。</td></tr>
+<tr><td>「清掉正式資料庫不需要的資料」</td><td>先產出查詢範圍、影響預覽、回復方式與待確認條件。</td><td>刪除規則或不可逆影響尚未明確授權。</td></tr>
+</tbody></table>
+<h3>可直接練習的工作契約</h3>
+<p class="small">這是練習用的指令範例，不是固定公式；簡單任務只留下有用的部分就好。</p>
+<pre>目標：修復「取消尚未領取的設備申請後，設備仍被占用」。
+輸入：已核准的 rules-v3.md、目前 repository、失敗案例。
+限制：不得改變核准角色或其他狀態規則；不修改正式資料。
+允許：讀取程式、在工作分支修正、執行本地與測試資料庫驗證。
+完成：提供可重現案例、最小修正、相關測試結果與差異說明。
+持續完成以上工作；如果規格互相矛盾，先列出精確衝突。
+不能執行的檢查請標示原因，不得把預期結果寫成已通過。
+正式部署不在本次範圍內。</pre>
+<div class="callout warn"><strong>驗收重點：</strong>把「該停下來的條件」寫成具體問題後，你就能觀察它是否分得清「這需要人決策」和「這只是下一個可執行步驟」。看三件事：業務規則有沒有被偷改、驗證是不是真的跑過、剩餘問題有沒有講清楚。</div>
+</section>
+
+<section id="exam"><h2>07｜辨識題自我檢測（100 分）</h2><p>共 10 題，每題 10 分。先作答，再按「計分並顯示解析」。未選視為答錯。</p>
+<div class="callout warn"><strong>這個分數代表什麼：</strong>它量的是你能不能辨識本章期待的答案，不等於你已能在陌生需求上獨立應用。完成下面「本章完成檢核」的實作項目，才是應用證據。</div><form id="examForm" class="quiz">
 <div class="q" data-answer="b"><h3>Q1. 好 Prompt 最核心的判準是？</h3><label class="option"><input type="radio" name="q1" value="a">越長、角色描述越華麗</label><label class="option"><input type="radio" name="q1" value="b">成果、依據、限制與完成標準清楚</label><label class="option"><input type="radio" name="q1" value="c">一次涵蓋全部工作</label><div class="answer"><strong>答案 B。</strong>可執行、可驗證比長度或角色咒語重要。</div></div>
 <div class="q" data-answer="c"><h3>Q2. v2、v3 與會議紀錄互相衝突，第一步是？</h3><label class="option"><input type="radio" name="q2" value="a">讓模型自行決定</label><label class="option"><input type="radio" name="q2" value="b">只留下最長文件</label><label class="option"><input type="radio" name="q2" value="c">定義版本用途、權威順序與衝突處理</label><div class="answer"><strong>答案 C。</strong>沒有優先級的 Context 會讓模型用不透明方式消解衝突。</div></div>
 <div class="q" data-answer="a"><h3>Q3. 哪個任務通常不需重度 Thinking？</h3><label class="option"><input type="radio" name="q3" value="a">把核准文字轉成固定 JSON</label><label class="option"><input type="radio" name="q3" value="b">比較三種 HA 架構</label><label class="option"><input type="radio" name="q3" value="c">找跨文件需求矛盾</label><div class="answer"><strong>答案 A。</strong>明確的格式轉換主要要求忠實執行。</div></div>
@@ -63,10 +88,18 @@ method、path、角色、輸入、成功條件、主要錯誤。</pre><p>有階�
 <div class="q" data-answer="a"><h3>Q9. 草案中的「合理假設」最好怎麼處理？</h3><label class="option"><input type="radio" name="q9" value="a">明確標註並等待確認</label><label class="option"><input type="radio" name="q9" value="b">寫成核准需求</label><label class="option"><input type="radio" name="q9" value="c">全部刪除</label><div class="answer"><strong>答案 A。</strong>假設可推動草案，但必須可追溯、可核准或否決。</div></div>
 <div class="q" data-answer="c"><h3>Q10. 哪一項最能證明你吸收了本章？</h3><label class="option"><input type="radio" name="q10" value="a">背出萬用公式</label><label class="option"><input type="radio" name="q10" value="b">每次都選最高 Thinking</label><label class="option"><input type="radio" name="q10" value="c">能依任務設計成果、Context、推理與驗證</label><div class="answer"><strong>答案 C。</strong>目標是形成可重複的工作判斷。</div></div>
 <button type="button" onclick="grade()">計分並顯示解析</button><button type="button" class="secondary" onclick="resetExam()">重新作答</button><div id="scorebox" class="scorebox" aria-live="polite"><div id="score" class="score"></div><h3 id="level"></h3><p id="advice"></p></div></form>
-<h3>評分標準</h3><table><thead><tr><th>分數</th><th>吸收程度</th><th>建議</th></tr></thead><tbody><tr><td>90–100</td><td>能獨立應用</td><td>進入 Part 3，並在真實任務中使用多輪流程。</td></tr><tr><td>80–89</td><td>已達標</td><td>複習錯題後進入 Part 3。</td></tr><tr><td>60–79</td><td>概念有基礎，判斷仍不穩</td><td>重做案件 API 三輪實作，再測一次。</td></tr><tr><td>0–59</td><td>尚未吸收</td><td>重讀 Prompt、Context、Thinking 三節。</td></tr></tbody></table></section>
+<h3>分數怎麼讀</h3><table><thead><tr><th>分數</th><th>辨識題表現</th><th>建議</th></tr></thead><tbody><tr><td>90–100</td><td>選項辨識穩定</td><td>進入 Part 3，並在一個真實任務中實際走一次工作契約。</td></tr><tr><td>80–89</td><td>辨識大致正確</td><td>複習錯題後進入 Part 3。</td></tr><tr><td>60–79</td><td>辨識仍不穩</td><td>重做案件 API 三輪實作，再測一次。</td></tr><tr><td>0–59</td><td>概念尚未成形</td><td>重讀 Prompt、Context、Thinking 三節。</td></tr></tbody></table></section>
 
-<section><h2>08｜本章完成檢核</h2><div class="grid"><div class="card"><h3>知識</h3><ul><li>能分辨 Prompt、Context、Thinking</li><li>知道 Thinking 不能取代查證</li><li>知道長 Prompt 不等於好 Prompt</li></ul></div><div class="card"><h3>應用</h3><ul><li>測驗達 80 分</li><li>完成三輪案件 API 實作</li><li>能標註需求、假設與待確認事項</li></ul></div></div><div class="callout good"><strong>帶走一句話：</strong>先對齊，再產出；先標註假設，再深入推理；最後用標準驗證，不用「看起來不錯」驗收。</div></section>
+<section><h2>08｜本章完成檢核</h2><div class="grid"><div class="card"><h3>知識</h3><ul><li>能分辨 Prompt、Context、Thinking</li><li>知道 Thinking 不能取代查證</li><li>知道長 Prompt 不等於好 Prompt</li></ul></div><div class="card"><h3>應用</h3><ul><li>測驗達 80 分</li><li>完成三輪案件 API 實作</li><li>能標註需求、假設與待確認事項</li></ul></div></div><div class="callout good"><strong>帶走一句話：</strong>先對齊，再產出；先標註假設，再深入推理；最後用標準驗證，不用「看起來不錯」驗收。</div>
+<h3>本章維護紀錄</h3>
+<table><thead><tr><th>項目</th><th>內容</th></tr></thead><tbody>
+<tr><td>查核日期／依據</td><td>2026-09-13；依 <a href="../audit-2026-09/">現況查核報告</a> 的 F03、F04、F16 修訂。</td></tr>
+<tr><td>主要來源</td><td><a href="https://learn.chatgpt.com/docs/prompting" target="_blank" rel="noopener">OpenAI Docs — Prompting</a>（成果導向指令）、<a href="https://learn.chatgpt.com/docs/long-running-work" target="_blank" rel="noopener">Long-running work</a>（持續執行與完成條件）。動態文件，查閱日期不等於發布日期。</td></tr>
+<tr><td>適用介面</td><td>方法章，不綁特定客戶端；工作契約範例可用於 Chat、Work 或 Codex。</td></tr>
+<tr><td>已執行的步驟</td><td>已查閱官方文件並改寫正文；未執行本章範例中的修復任務。</td></tr>
+<tr><td>待確認</td><td>各帳戶可用的委派與持續執行入口。</td></tr>
+</tbody></table></section>
 <footer class="footer"><strong>Claude → ChatGPT 快速轉換課程｜Part 2</strong><br>下一章：Part 3「Search、Deep Research 與 Files：資料從哪裡來，如何查證」。</footer>
 </main><script>
-function grade(){let score=0;document.querySelectorAll('.q').forEach(q=>{const pick=q.querySelector('input:checked'),ok=pick&&pick.value===q.dataset.answer;if(ok)score+=10;const a=q.querySelector('.answer');a.classList.add('show');a.classList.toggle('correct',!!ok);a.classList.toggle('incorrect',!ok)});let level,advice;if(score>=90){level='能獨立應用';advice='你已掌握本章，可進入 Part 3。建議把多輪流程用在一個真實需求。'}else if(score>=80){level='已達標';advice='複習錯題解析後即可進入 Part 3。'}else if(score>=60){level='概念有基礎，但判斷仍不穩';advice='重做案件狀態變更 API 實作，特別練習 Context 優先順序與驗證。'}else{level='尚未吸收';advice='重讀 Prompt、Context、Thinking 三節後重新測驗。'}document.getElementById('score').textContent=score+' / 100';document.getElementById('level').textContent=level;document.getElementById('advice').textContent=advice;document.getElementById('scorebox').classList.add('show');document.getElementById('scorebox').scrollIntoView({behavior:'smooth',block:'center'})}function resetExam(){document.getElementById('examForm').reset();document.querySelectorAll('.answer').forEach(a=>a.className='answer');document.getElementById('scorebox').classList.remove('show')}
+function grade(){let score=0;document.querySelectorAll('.q').forEach(q=>{const pick=q.querySelector('input:checked'),ok=pick&&pick.value===q.dataset.answer;if(ok)score+=10;const a=q.querySelector('.answer');a.classList.add('show');a.classList.toggle('correct',!!ok);a.classList.toggle('incorrect',!ok)});let level,advice;if(score>=90){level='辨識題表現：穩定';advice='辨識沒問題了。接著把工作契約用在一個真實需求上，交出可審查的結果。'}else if(score>=80){level='辨識題表現：大致正確';advice='複習錯題解析後即可進入 Part 3。'}else if(score>=60){level='辨識題表現：仍不穩';advice='重做案件狀態變更 API 實作，特別練習 Context 優先順序與驗證。'}else{level='辨識題表現：概念尚未成形';advice='重讀 Prompt、Context、Thinking 三節後重新測驗。'}document.getElementById('score').textContent=score+' / 100';document.getElementById('level').textContent=level;document.getElementById('advice').textContent=advice;document.getElementById('scorebox').classList.add('show');document.getElementById('scorebox').scrollIntoView({behavior:'smooth',block:'center'})}function resetExam(){document.getElementById('examForm').reset();document.querySelectorAll('.answer').forEach(a=>a.className='answer');document.getElementById('scorebox').classList.remove('show')}
 </script></body></html>
